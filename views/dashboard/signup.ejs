@@ -1,0 +1,74 @@
+<% layout('../includes/layout.ejs') %>
+
+<section>
+    <h1 class="alert alert-success">Register a new user</h1>
+    <div class="card p-3">
+        <form method="post" novalidate class="needs-validation">
+            <%if(validateError && validateError.length){%>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong> <%=validateError %></strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <%}%>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="fullname">full name</label>
+                    <input type="text" class="form-control" value="<%=formData?.fullname%>" id="fullname" required
+            name="fullname" placeholder="Mark">
+            <div class="invalid-feedback">
+                Name is required filed
+            </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="email">email</label>
+        <input type="email" class="form-control" id="email" value="<%=formData?.email%>" name="email" value="">
+        <div class="invalid-feedback">
+            Please provide an email
+        </div>
+    </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6 mb-3">
+            <label for="contact">contact number</label>
+            <input type="text" class="form-control " id="contact" required value="<%=formData?.contact%>" name="contact"
+                aria-describedby="validationServer03Feedback">
+            <div class="invalid-feedback">
+                Contact number is required filed
+            </div>
+        </div>
+        <div class="col-md-3 mb-3 bg-warning p-1">
+            <label for="username" class="">username </label>
+            <input type="text" class="form-control " required value="<%=formData?.username%>" id="username"
+                name="username" aria-describedby="validationServer03Feedback">
+            <div class="invalid-feedback">
+                Username is required filed
+            </div>
+        </div>
+        <div class="col-md-3 mb-3 bg-warning p-1">
+            <label for="password" class="">password </label>
+            <input type="password" class="form-control " required id="password" name="password"
+                aria-describedby="validationServer03Feedback">
+            <div class="invalid-feedback">
+                Password is required filed
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-check">
+            <input class="form-check-input " type="checkbox" value="" id="invalidCheck3"
+                aria-describedby="invalidCheck3Feedback">
+            <label class="form-check-label" for="invalidCheck3">
+                Agree to terms and conditions
+            </label>
+            <div id="invalidCheck3Feedback" class="invalid-feedback">
+                You must agree before submitting.
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-success" type="submit">Register User</button>
+    </form>
+    </div>
+
+</section>

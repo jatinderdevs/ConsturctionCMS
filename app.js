@@ -60,11 +60,11 @@ app.use("/dashboard", dashboard);
 
 app.use((err, req, res, next) => {
   const { status = 500, message = "something Went wrong!" } = err;
-  res.status(status).send(message);
+  res.status(status).render("500.ejs", { message });
 });
 
 app.use("*", (req, res, next) => {
-  res.send("page not found");
+  return res.render("404.ejs");
 });
 
 mongoose
