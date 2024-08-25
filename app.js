@@ -10,6 +10,7 @@ const passport = require("passport");
 const LocalPassport = require("passport-local");
 const flash = require("connect-flash");
 const bodyParser = require("body-parser");
+const MongoStore = require("connect-mongo");
 
 const User = require("./models/user");
 
@@ -25,24 +26,26 @@ app.set("views", "views");
 app.engine("ejs", ejsMate);
 
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//session stroe
+const store = MongoStore.create({
+  mongoUrl: process.env.DB_URI,
+  crypto: {
+    secret: process.env.SESSION_SECERT,
+  },
+  touchAfter: 24 * 3600,
+});
+
 //session implement
 app.use(
   session({
-    // stroe has to be added
+    store: store,
     secret: process.env.SESSION_SECERT,
     saveUninitialized: true,
     resave: false,
   })
 );
 app.use(flash());
-
-//middleware for the flash messages
-app.use((req, res, next) => {
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
-  res.locals.currentUser = req.user;
-  next();
-});
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -55,6 +58,13 @@ passport.deserializeUser(User.deserializeUser());
 //serve static file
 app.use(express.static(path.join(__dirname, "public")));
 
+//middleware for the flash messages
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  res.locals.currentUser = req.user;
+  next();
+});
 app.use("/auth", userRoute);
 app.use("/dashboard", dashboard);
 

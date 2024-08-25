@@ -13,7 +13,7 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="#">My Work Management App</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -29,50 +29,57 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Pricing</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                            aria-expanded="false">
-                            Dropdown link
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </li>
+
                 </ul>
-                <div class="pull-right">
-                    <a href="/auth/logout" class="btn btn-sm btn-warning">Log Out</a>
+
+            </div>
+            <div class="pull-right">
+                <%if(currentUser){%>
+                <div class="nav-item bg-warning  rounded dropdown">
+                    <a class="nav-link  dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                        aria-expanded="false">
+
+                        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" width="25px" alt="">
+                        <span> Hi! <i class="text-capitalize"> <%= currentUser ?currentUser.fullname:''%></i></span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Profile Settings</a>
+                        <a class="dropdown-item" href="#">Account Settings</a>
+                        <a href="/auth/logout" class="btn btn-sm btn-warning dropdown-item">Log Out</a>
+                    </div>
                 </div>
+
+                <%}%>
+                
             </div>
         </nav>
     </header>
     <main>
         <div class="container">
             <%if(success && success.length){%>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong> <%=success %><%=error %></strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <%}%>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong> <%=success %><%=error %></strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <%}%>
             <%if(error && error.length){%>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong><%=error %></strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <%}%>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong><%=error %></strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <%}%>
 
             <%- body%>
 
-        </div>
-    </main>
-    <footer class="text-center bg-light">
-        <p>&copy; All rights are reserved</p>
-    </footer>
+            </div>
+            </main>
+            <footer class="text-center bg-light">
+                <p>&copy; All rights are reserved</p>
+            </footer>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
