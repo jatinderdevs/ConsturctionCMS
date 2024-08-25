@@ -17,6 +17,7 @@ const User = require("./models/user");
 //routers
 const userRoute = require("./routes/userRoute");
 const dashboard = require("./routes/dashboard");
+const company = require("./routes/company");
 
 //settting View engines and views
 app.set("view engine", "ejs");
@@ -65,8 +66,11 @@ app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   next();
 });
+
+// routers links
 app.use("/auth", userRoute);
 app.use("/dashboard", dashboard);
+app.use("/company", company);
 
 app.use((err, req, res, next) => {
   const { status = 500, message = "something Went wrong!" } = err;
