@@ -18,6 +18,11 @@ const User = require("./models/user");
 const userRoute = require("./routes/userRoute");
 const dashboard = require("./routes/dashboard");
 const company = require("./routes/company");
+const admin = require("./routes/admin");
+
+//middleware
+const { isauth, isAdmin } = require("./utilities/middleware/isauth");
+const { isCompany } = require("./utilities/middleware/misMiddleware");
 
 //settting View engines and views
 app.set("view engine", "ejs");
@@ -69,8 +74,9 @@ app.use((req, res, next) => {
 
 // routers links
 app.use("/auth", userRoute);
-app.use("/dashboard", dashboard);
-app.use("/company", company);
+app.use("/dashboard", isauth, isAdmin, dashboard);
+app.use("/company", isauth, company);
+app.use("/admin", isauth, isCompany, admin);
 
 app.use((err, req, res, next) => {
   const { status = 500, message = "something Went wrong!" } = err;

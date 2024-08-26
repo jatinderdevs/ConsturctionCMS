@@ -10,7 +10,7 @@ const companySchema = new Schema(
     },
     logo: {
       type: String,
-      default: "",
+      default: "https://shorturl.at/rg7cJ",
     },
     contactNumber: {
       type: String,

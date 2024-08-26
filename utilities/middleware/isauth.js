@@ -9,9 +9,26 @@ module.exports.isauth = asyncWrap(async (req, res, next) => {
   next();
 });
 
+//save requested URL to redirect when signin
 module.exports.redirectUrl = asyncWrap(async (req, res, next) => {
   if (req.session.requestedUrl) {
     res.locals.originalUrl = req.session.requestedUrl;
+  }
+  next();
+});
+
+//check user role
+module.exports.isAdmin = asyncWrap(async (req, res, next) => {
+  const { role, companyId } = req.user;
+
+  if (role !== "superadmin") {
+    if (companyId !== "undefind") {
+      req.flash("error", "you have not permission to access this link");
+      return res.redirect("/admin/");
+    } else {
+      req.flash("error", "complete your company profile");
+      return res.redirect("/company/create");
+    }
   }
   next();
 });

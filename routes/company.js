@@ -1,15 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const { isauth } = require("../utilities/middleware/isauth");
 const asyncWrap = require("../utilities/asyncWrap");
-const { index, createUpdate } = require("../controllers/companyController");
+const { isCompany } = require("../utilities/middleware/misMiddleware");
+
+const {
+  index,
+  createUpdate,
+  companyProfile,
+} = require("../controllers/companyController");
+
 const {
   isCompanyDataValid,
 } = require("../utilities/validations/companyValidation");
 
 router
   .route("/create")
-  .get(isauth, asyncWrap(index))
-  .post(isauth, isCompanyDataValid, asyncWrap(createUpdate));
+  .get(asyncWrap(index))
+  .post(isCompanyDataValid, asyncWrap(createUpdate));
+
+router.get("/profile", isCompany, asyncWrap(companyProfile));
 
 module.exports = router;

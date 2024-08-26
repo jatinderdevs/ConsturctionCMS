@@ -1,28 +1,37 @@
 const Company = require("../models/company");
+const User = require("../models/user");
 
 module.exports.index = async (req, res, next) => {
-  // const data = await Company.findOne({ _id: "66cae8358c8c26119e219e65" });
-  // data.bankDetails.ABN_number = 5656;
-  // await data.save();
-  return res.render("company/create.ejs", { formData: {}, validateError: {} });
+  if (!req.user.companyId) {
+    return res.render("company/create.ejs", {
+      formData: {},
+      validateError: {},
+    });
+  }
+  return res.redirect("/admin/");
 };
 
 module.exports.createUpdate = async (req, res, next) => {
-  console.log(req.body);
+  const { companyName, contactNumber, email, logo, address, bank, unitRate } =
+    req.body;
+  const addCompany = new Company({
+    companyName,
+    logo,
+    contactNumber,
+    email,
+    address: address,
+    bankDetails: bank,
+    username: req.user,
+    unitRate,
+  });
+  const company = await addCompany.save();
+  const currentUser = await User.findOne({ _id: req.user._id });
+  currentUser.companyId = company;
+  await currentUser.save();
+  req.flash("success", "welcome to the admin application");
+  return res.redirect("/admin/");
+};
 
-  // const { companyName, contactNumber, email, logo, address, bank, unitRate } =
-  //   req.body;
-  // const addCompany = new Company({
-  //   companyName,
-  //   logo,
-  //   contactNumber,
-  //   email,
-  //   address: address,
-  //   bankDetails: bank,
-  //   username: req.user,
-  //   unitRate,
-  // });
-  // await addCompany.save();
-
-  //add user table compnay _id
+module.exports.companyProfile = async (req, res, next) => {
+  return res.render("company/companyprofile");
 };

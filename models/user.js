@@ -18,6 +18,8 @@ const userSchema = new Schema(
     role: String,
     companyId: {
       type: Schema.Types.ObjectId,
+      default: null,
+      ref: "company",
     },
   },
   { timestamps: true }

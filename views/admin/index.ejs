@@ -1,0 +1,42 @@
+<% layout('../includes/layout.ejs') %>
+
+<section>
+    <div class="alert alert-light rounded border-warning shadow text-capitalize flex">
+        <img src="https://shorturl.at/rg7cJ" width="60px" alt="">
+        <h1 class="m-0 text-dark">
+            <%=companyData.companyName%>
+
+        </h1>
+        <div>
+            <a href="/company/profile" class="btn btn-danger text-capitalize">company profile</a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card  bg-warning shadow mb-3">
+                <h3 class="card-header">My Crew</h3>
+                <div class="card-body">
+                    <h2 class="card-title m-0"><b> 10</b></h2>
+                    <div class="card-text">crew members</div>
+                    <hr>
+                    <a href="" class="btn btn-outline-dark">Add Worker</a>
+                    <a href="" class="btn btn-dark">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-info shadow mb-3">
+                <h3 class="card-header">My Jobs</h3>
+                <div class="card-body">
+                    <h2 class="card-title m-0"><b> 50</b></h2>
+                    <div class="card-text">Jobs</div>
+                    <hr>
+                    <a href="" class="btn btn-light">Add New Job</a>
+                    <a href="" class="btn btn-outline-light">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

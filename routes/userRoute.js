@@ -4,8 +4,6 @@ const passport = require("passport");
 const controller = require("../controllers/userController");
 const { redirectUrl } = require("../utilities/middleware/isauth");
 
-router.get("/signup", controller.signup);
-
 router.get("/signin", controller.signin);
 
 router.post(
