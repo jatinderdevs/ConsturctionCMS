@@ -1,0 +1,82 @@
+<% layout('../includes/layout.ejs') %>
+
+<section>
+    <div class="actionbtn py-4">
+        <a href="" class="btn btn-lg btn-success shadow"> Genrate Invoice</a>
+        <a href="" class="btn btn-lg btn-info shadow"> Edit</a>
+    </div>
+    <div class="card p-4 shadow">
+        <h1 class="alert alert-primary text-capitalize">job Details</h1>
+        <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-4">
+                <div class="headtext text-right">
+                    <h2><%=job.companyId.companyName%></h2>
+                    <span class="">
+                        <p><%=job.companyId.address.street%>, <%=job.companyId.address.suburb%>,
+                            <%=job.companyId.address.postCode%></p>
+                    </span>
+                    <br>
+                    <strong>ABN :<%=job.companyId.bankDetails.ABN_number%> </strong>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-4">
+                <div class="headtext text-right">
+                    <h2>INVOICE</h2>
+                    <span class="">
+                        <p><b>Date:</b> 27th August 2024</p>
+                        <p><b>Invoice Number:</b> 0001</p>
+                    </span>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="headtext">
+                    <span>To</span>
+                    <h2>Cormack Company</h2>
+                    <span class="">
+                        <p><%=job.companyId.address.street%>, <%=job.companyId.address.suburb%>,
+                            <%=job.companyId.address.postCode%></p>
+                    </span>
+
+                </div>
+                <br>
+                <div class="headtext">
+                    <p><b>Job number : </b> <%=job.jobNumber%></p>
+
+                    <p><b>Job location : </b> <%=job.location%></p>
+                    <p><b>Job date : </b> <%=job.jobDate%></p>
+                </div>
+            </div>
+            <div class="col-md-8"></div>
+
+        </div>
+        <table class="table table-bordered text-capitalize mt-4">
+            <thead class="alert alert-primary">
+                <tr>
+                    <th>Descripation</th>
+                    <th>area (Sqm)</th>
+                    <th>unit price</th>
+                    <th>total price AUD</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>houseslable</td>
+                    <td>120.25</td>
+                    <td>20</td>
+                    <td>$ 1.200.00</td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

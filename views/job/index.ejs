@@ -1,0 +1,48 @@
+<% layout('../includes/layout.ejs') %>
+
+<section>
+    <h1 class="text-capitalize alert alert-info">Jobs</h1>
+    <hr>
+    <table class="table table-bordered table-responsive-md  text-capitalize">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">job number</th>
+                <th scope="col">location</th>
+                <th scope="col">date</th>
+                <th scope="col">actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%for(let job of jobs){%>
+            <tr class="middle">
+                <th scope="row"><%=rows++%></th>
+
+                <td>
+                    <h6 class="m-0">
+                        <p class="badge badge-info"># <%=job.jobNumber%></p>
+                    </h6>
+                </td>
+                <td>
+                    <p><%=job.location%></p>
+                </td>
+                <td>
+                    <p><%=job.jobDate.toLocaleDateString('en-Au', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: '2-digit' 
+                      })%></p>
+                </td>
+
+                <td>
+                    <div class="text-center">
+                        <a href="/job/view/<%=job._id%>/<%=currentUser.companyId%>"
+                            class="btn btn-sm btn-primary">View</a>
+                        <a href="" class="btn btn-sm btn-warning">Edit</a>
+                    </div>
+                </td>
+            </tr>
+            <%}%>
+        </tbody>
+    </table>
+</section>

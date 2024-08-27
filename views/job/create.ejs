@@ -1,0 +1,50 @@
+<% layout('../includes/layout.ejs') %>
+
+<section>
+    <h1 class="alert  alert-info">Create a Job</h1>
+    <hr>
+    <div class="card p-4">
+        <form class="needs-validation" method="post" novalidate>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="">Job Number</label>
+                    <input type="text" class="form-control" id="jobNumber" name="jobNumber" value="" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="">job date</label>
+                    <input type="date" class="form-control" id="jobDate" name="jobDate" value="Otto" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="location">location</label>
+                    <input type="text" class="form-control" id="location" name="location" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid location.
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="jobSize">Job size </label>
+                    <input type="text" class="form-control" id="jobSize" name="jobSize">
+                </div>
+                <div class="col-md-12 mb-6">
+                    <label for="comment">comment <i>(optional)</i></label>
+                    <textarea rows="3" class="form-control" id="comment" name="comment"></textarea>
+
+                </div>
+
+            </div>
+            <hr>
+            <button class="btn btn-info" type="submit">Create</button>
+        </form>
+    </div>
+
+
+
+</section>
