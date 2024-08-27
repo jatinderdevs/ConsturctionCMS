@@ -28,3 +28,10 @@ module.exports.signupsubmit = async (req, res, next) => {
   req.flash("success", "New user has been registerd successfully!");
   return res.redirect("/dashboard/");
 };
+
+module.exports.users = async (req, res, next) => {
+  const rows = 1;
+  const users = await User.find({});
+
+  return res.render("dashboard/userList", { users, rows });
+};

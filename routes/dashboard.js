@@ -6,6 +6,7 @@ const {
   index,
   signup,
   signupsubmit,
+  users,
 } = require("../controllers/dashController");
 
 const { isUserValidate } = require("../utilities/validations/uservalidation");
@@ -16,5 +17,7 @@ router
   .route("/signup")
   .get(asyncWrap(signup))
   .post(isUserValidate, asyncWrap(signupsubmit));
+
+router.get("/users", asyncWrap(users));
 
 module.exports = router;

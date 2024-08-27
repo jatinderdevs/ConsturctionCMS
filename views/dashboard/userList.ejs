@@ -1,0 +1,44 @@
+<% layout('../includes/layout.ejs') %>
+
+<section>
+    <h1 class="text-capitalize alert alert-info">registered users</h1>
+    <hr>
+    <table class="table table-bordered table-responsive-md  text-capitalize">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">user Image</th>
+                <th scope="col">fullname</th>
+                <th scope="col">Username</th>
+                <th scope="col">Status</th>
+                <th scope="col">actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%for(let user of users){%>
+            <tr class="middle">
+                <th scope="row"><%=rows++%></th>
+                <td><img src="https://www.pngitem.com/pimgs/m/581-5813504_avatar-dummy-png-transparent-png.png"
+                        width="40px" alt="">
+                </td>
+                <td>
+                    <h6 class="m-0"> <%=user.fullname%></h6>
+                </td>
+                <td>
+                    <p class="badge badge-primary">@<%=user.username%></p>
+                </td>
+                <td>
+                    <p class="badge <%=user.isactive?'badge-success':'badge-danger'%>">
+                        <%=user.isactive?'Active':'Deactivated'%></p>
+                </td>
+                <td>
+                    <div class="text-center">
+                        <a href="" class="btn btn-sm btn-primary">View</a>
+                        <a href="" class="btn btn-sm btn-warning">Edit</a>
+                    </div>
+                </td>
+            </tr>
+            <%}%>
+        </tbody>
+    </table>
+</section>
