@@ -37,10 +37,45 @@ module.exports.createPost = async (req, res, next) => {
 
 module.exports.job = async (req, res, next) => {
   const { id, company } = req.params;
+  const { _id } = req.user;
+  const job = await Job.findOne({
+    companyId: company,
+    _id: id,
+    username: _id,
+  }).populate("companyId");
 
-  const job = await Job.findOne({ companyId: company, _id: id }).populate(
-    "companyId"
+  const { jobSize, unitRate, additionalCharges } = job;
+  const add_charges = additionalCharges.reduce(
+    (total, val) => total + val.charges,
+    0
   );
 
-  return res.render("job/job.ejs", { job });
+  const jobCharges = jobSize * unitRate;
+  const subtotal = jobCharges + add_charges;
+  const GST = subtotal * 0.1;
+  const totalInvoice = subtotal + GST;
+
+  return res.render("job/job.ejs", {
+    job,
+    jobCharges,
+    GST,
+    totalInvoice,
+    subtotal,
+  });
+};
+
+module.exports.additionalCharges = async (req, res, next) => {
+  const { _id } = req.user;
+  const { jobId, chargesInfo, charges, companyId } = req.body;
+  const job = await Job.findOne({
+    _id: jobId,
+    username: _id,
+  });
+  job.additionalCharges.push({
+    chargeInfo: chargesInfo,
+    charges,
+  });
+  await job.save();
+  req.flash("success", "Additional Charges has been added successfully");
+  res.redirect(`/job/view/${jobId}/${companyId}`);
 };

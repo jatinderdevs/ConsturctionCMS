@@ -24,6 +24,16 @@ const jobSchema = new Schema(
       type: Number,
       required: true,
     },
+    isInvoiceGenrate: {
+      type: Boolean,
+      default: false,
+    },
+    additionalCharges: [
+      {
+        chargeInfo: String,
+        charges: Number,
+      },
+    ],
     companyId: {
       type: Schema.Types.ObjectId,
       ref: "company",

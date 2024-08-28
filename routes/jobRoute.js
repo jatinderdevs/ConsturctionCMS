@@ -5,12 +5,15 @@ const {
   createPost,
   index,
   job,
+  additionalCharges,
 } = require("../controllers/jobController");
 const router = express.Router();
 
 router.get("/index", asyncWrap(index));
 
 router.route("/create").get(asyncWrap(create)).post(asyncWrap(createPost));
+
+router.post("/charges/", asyncWrap(additionalCharges));
 
 router.get("/view/:id/:company", asyncWrap(job));
 

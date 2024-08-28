@@ -20,6 +20,7 @@ const dashboard = require("./routes/dashboard");
 const company = require("./routes/company");
 const admin = require("./routes/admin");
 const job = require("./routes/jobRoute");
+const jobInvoice = require("./routes/jobInvoiceRoute");
 
 //middleware
 const { isauth, isAdmin } = require("./utilities/middleware/isauth");
@@ -79,6 +80,7 @@ app.use("/dashboard", isauth, isAdmin, dashboard);
 app.use("/company", isauth, company);
 app.use("/admin", isauth, isCompany, admin);
 app.use("/job", isauth, isCompany, job);
+app.use("/jobinvoice", isauth, isCompany, jobInvoice);
 
 app.use((err, req, res, next) => {
   const { status = 500, message = "something Went wrong!" } = err;
