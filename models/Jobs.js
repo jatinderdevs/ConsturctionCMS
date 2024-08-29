@@ -6,6 +6,7 @@ const jobSchema = new Schema(
     jobNumber: {
       type: String,
       required: true,
+      unique: true,
     },
     jobDate: {
       type: Date,
@@ -23,6 +24,18 @@ const jobSchema = new Schema(
     unitRate: {
       type: Number,
       required: true,
+    },
+    invoice: {
+      invoiceNumber: {
+        type: Number,
+        required: true,
+        unique: true,
+      },
+      IsPaid: {
+        type: Boolean,
+        required: true,
+        default: false,
+      },
     },
     isInvoiceGenrate: {
       type: Boolean,

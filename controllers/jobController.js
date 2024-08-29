@@ -10,7 +10,7 @@ module.exports.index = async (req, res, next) => {
 };
 
 module.exports.create = async (req, res, next) => {
-  res.render("job/create");
+  res.render("job/create", { formData: {}, validateError: {} });
 };
 
 module.exports.createPost = async (req, res, next) => {
@@ -29,6 +29,10 @@ module.exports.createPost = async (req, res, next) => {
     companyId,
     comment,
     username: _id,
+    invoice: {
+      invoiceNumber: Math.floor(1000 + Math.random() * 9000),
+      IsPaid: false,
+    },
   });
   await newJob.save();
   req.flash("success", "Job has been added successfully");
@@ -78,4 +82,8 @@ module.exports.additionalCharges = async (req, res, next) => {
   await job.save();
   req.flash("success", "Additional Charges has been added successfully");
   res.redirect(`/job/view/${jobId}/${companyId}`);
+};
+
+module.exports.genrateInvoice = async (req, res, next) => {
+  //genrate invoice code create new page where you can see proper invoice
 };

@@ -2,66 +2,110 @@
 
 <section>
     <div class="actionbtn py-4 text-right">
+        <%if(!job.isInvoiceGenrate){%>
         <form action="/jobinvoice/genrate" method="post" style="display: inline-block;">
             <input type="hidden" name="totalInvoiceAmount" value="<%=totalInvoice%>">
             <input type="hidden" name="jobId" value="<%=job._id%>">
             <input type="hidden" name="username" value="<%=job.username%>">
-            <button type="submit" class="btn btn-lg btn-success shadow"> Genrate Invoice</button>
+            <button type="submit" class="btn  btn-success shadow"> Genrate Invoice</button>
 
         </form>
+        <%}else{%>
+        <button class="btn btn-success" disabled>Genrated</button>
 
-        <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#exampleModal">
+        <%}%>
+
+        <button type="button" class="btn  btn-primary" data-toggle="modal" data-target="#exampleModal">
             Add additional Charges
         </button>
 
-        <a href="" class="btn btn-lg btn-warning shadow"> Edit</a>
+        <a href="" class="btn  btn-warning shadow"> Edit</a>
     </div>
     <div class="card p-4 shadow">
-        <h1 class="alert alert-primary text-capitalize">job Details</h1>
-        <div class="row">
-            <div class="col-md-8">
-                <%if(job.comment){%>
-                <div class="card alert alert-warning">
-                    <h4>Comment</h4>
-                    <p><%=job.comment%></p>
-                </div>
-                <%}%>
-            </div>
+        <h1 class="alert alert-primary text-capitalize">Cormack Job</h1>
+        <div class="row align-items-center">
             <div class="col-md-4">
-                <div class="headtext text-right">
-                    <h2><%=job.companyId.companyName%></h2>
-                <span class="">
-                    <p><%=job.companyId.address.street%>, <%=job.companyId.address.suburb%>,
-                        <%=job.companyId.address.postCode%></p>
-                </span>
-                <br>
-                <strong>ABN :<%=job.companyId.bankDetails.ABN_number%> </strong>
+                <div class="card">
+                    <div class="card-header alert alert-warning">
+                        <b>Job Contractor</b>
+                    </div>
+                    <div class="card-body">
+                     
+
+                    <strong> Cormack Company</strong>
+                    <span class="">
+                        <p><%=job.companyId.address.street%>, <%=job.companyId.address.suburb%>,
+        <%=job.companyId.address.postCode%></p>
+        </span>
+    </div>
+
+
+    </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header alert alert-info">
+                <b>Payment Status</b>
+            </div>
+            <div class="card-body flex ">
+                <div>
+                    <strong>Invoice Number : </strong>
+                    <h5>
+                        <span class="badge badge-warning"><%=job.invoice.invoiceNumber%></span>
+
+                    </h5>
+
+                </div>
+                <div>
+                    <span
+                        class="alert <%=job.invoice.IsPaid?'alert-success':'alert-danger'%>"><%=job.invoice.IsPaid?'Payment Done':'Pending'%></span>
+                </div>
+
+
             </div>
         </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header  alert-success">
+                <b>Job Details</b>
+            </div>
+            <div class="card-body">
+                <div>
+
+                    <h5 class="m-0"> <small>Job number :</small> <span class="badge badge-primary ">
+                            #<%=job.jobNumber%></span></h5>
+                </div>
+
+
+                <span> <b>Job location : </b> <%=job.location%></span>
+                <br>
+                <span><b>Job date : </b> <%=job.jobDate.toLocaleDateString(undefined, {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })%></span>
+            </div>
+
+        </div>
+    </div>
     </div>
     <hr>
 
     <div class="row">
         <div class="col-md-4">
-            <div class="headtext">
-                <span class="alert alert-info p-2">Job Owner</span>
-
-                <h2>Cormack Company</h2>
-                <span class="">
-                    <p><%=job.companyId.address.street%>, <%=job.companyId.address.suburb%>,
-                        <%=job.companyId.address.postCode%></p>
-                </span>
-
+            <%if(job.comment){%>
+            <div class="card alert alert-warning">
+                <h4>Comment</h4>
+                <p><%=job.comment%></p>
             </div>
+            <%}%>
             <br>
-            <div class="headtext">
-                <p><b>Job number : </b> <span class="badge badge-primary w-25 "> #<%=job.jobNumber%></span></p>
-
-                <p><b>Job location : </b> <%=job.location%></p>
-                <p><b>Job date : </b> <%=job.jobDate%></p>
-            </div>
-        </div>
-        <div class="col-md-8"></div>
+           
+    </div>
+    <div class="col-md-8"></div>
 
     </div>
     <table class="table table-bordered text-capitalize mt-4">
@@ -78,8 +122,8 @@
             <tr>
                 <td>houseslable</td>
                 <td><%=job.jobSize%></td>
-                <td><%=job.unitRate.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
-                <td><%=jobCharges.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
+            <td><%=job.unitRate.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
+            <td><%=jobCharges.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
 
             </tr>
             <tr>
@@ -134,9 +178,9 @@
                 <td><%=totalInvoice.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
 
             </tr>
-        </tbody>
-    </table>
-    </div>
+            </tbody>
+            </table>
+        </div>
 </section>
 <section>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

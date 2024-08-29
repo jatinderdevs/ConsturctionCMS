@@ -1,4 +1,6 @@
 const express = require("express");
+const router = express.Router();
+
 const asyncWrap = require("../utilities/asyncWrap");
 const {
   create,
@@ -7,11 +9,15 @@ const {
   job,
   additionalCharges,
 } = require("../controllers/jobController");
-const router = express.Router();
+
+const { isJobDataValid } = require("../utilities/validations/jobValidate");
 
 router.get("/index", asyncWrap(index));
 
-router.route("/create").get(asyncWrap(create)).post(asyncWrap(createPost));
+router
+  .route("/create")
+  .get(asyncWrap(create))
+  .post(isJobDataValid, asyncWrap(createPost));
 
 router.post("/charges/", asyncWrap(additionalCharges));
 
