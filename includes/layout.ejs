@@ -24,7 +24,7 @@
                         <a class="nav-link" href="/dashboard/">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/auth/signin">SignIn</a>
+                        <a class="nav-link" href="/user/signin">SignIn</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Pricing</a>
@@ -43,9 +43,9 @@
                         <span> Hi! <i class="text-capitalize"> <%= currentUser ?currentUser.fullname:''%></i></span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Profile Settings</a>
+                        <a class="dropdown-item" href="/user/profile">Profile Settings</a>
                         <a class="dropdown-item" href="#">Account Settings</a>
-                        <a href="/auth/logout" class="btn btn-sm btn-warning dropdown-item">Log Out</a>
+                        <a href="/user/logout" class="btn btn-sm btn-warning dropdown-item">Log Out</a>
                     </div>
                 </div>
 

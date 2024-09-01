@@ -74,7 +74,7 @@ app.use((req, res, next) => {
 });
 
 // routers links
-app.use("/auth", userRoute);
+app.use("/user", userRoute);
 app.use("/dashboard", isauth, isAdmin, dashboard);
 app.use("/company", isauth, company);
 app.use("/admin", isauth, isCompany, admin);

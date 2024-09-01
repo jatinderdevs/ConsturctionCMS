@@ -1,10 +1,20 @@
-const asyncWrap = require("../utilities/asyncWrap");
+const User = require("../models/user");
 
 exports.signin = (req, res, next) => {
-  return res.render("auth/signin.ejs");
+  let redirectURL;
+  if (req.user) {
+    if (req.user.role === "superadmin") {
+      redirectURL = "/dashboard/";
+    } else if (req.user.role === "admin") {
+      redirectURL = "/admin/";
+    }
+    return res.redirect(redirectURL);
+  } else {
+    return res.render("user/signin.ejs");
+  }
 };
 
-exports.postSignin = asyncWrap(async (req, res, next) => {
+exports.postSignin = async (req, res, next) => {
   let roleBaseDashboard;
   const { role } = req.user;
   if (role === "superadmin") {
@@ -17,14 +27,24 @@ exports.postSignin = asyncWrap(async (req, res, next) => {
 
   req.flash("success", "welcome to the application");
   return res.redirect(URL);
-});
+};
 
-exports.logout = asyncWrap(async (req, res, next) => {
+exports.profile = async (req, res, next) => {
+  const { username } = req.user;
+  const user = await User.findOne({ username }).populate({
+    path: "companyId",
+    select: "companyName",
+  });
+
+  res.render("user/profile", { user });
+};
+
+exports.logout = async (req, res, next) => {
   req.logout((err) => {
     if (err) {
       next(err);
     }
     req.flash("success", "Successfully logout!");
-    res.redirect("/auth/signin");
+    res.redirect("/user/signin");
   });
-});
+};

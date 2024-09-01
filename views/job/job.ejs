@@ -1,13 +1,13 @@
 <% layout('../includes/layout.ejs') %>
 
 <section>
-    <div class="actionbtn py-4 text-right">
+    <div class="actionbtn flex py-3">
         <%if(!job.isInvoiceGenrate){%>
         <form action="/jobinvoice/genrate" method="post" style="display: inline-block;">
             <input type="hidden" name="totalInvoiceAmount" value="<%=totalInvoice%>">
             <input type="hidden" name="jobId" value="<%=job._id%>">
             <input type="hidden" name="username" value="<%=job.username%>">
-            <button type="submit" class="btn  btn-success shadow"> Genrate Invoice</button>
+            <button type="submit" class="btn  btn-success shadow"> Download Invoice</button>
 
         </form>
         <%}else{%>
@@ -228,3 +228,12 @@
         </div>
     </div>
 </section>
+<script>
+    var element = document.getElementById('test');
+    var options = {
+        filename: 'test.pdf'
+    };
+    domToPdf(element, options, function (pdf) {
+        console.log('done');
+    });
+</script>

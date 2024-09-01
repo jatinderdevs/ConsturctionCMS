@@ -1,20 +1,30 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-const controller = require("../controllers/userController");
-const { redirectUrl } = require("../utilities/middleware/isauth");
+const {
+  signin,
+  postSignin,
+  profile,
+  logout,
+} = require("../controllers/userController");
 
-router.get("/signin", controller.signin);
+const { redirectUrl, isauth } = require("../utilities/middleware/isauth");
 
-router.post(
-  "/signin",
-  redirectUrl,
-  passport.authenticate("local", {
-    failureRedirect: "/auth/signin",
-    failureFlash: true,
-  }),
-  controller.postSignin
-);
-router.get("/logout", controller.logout);
+const asyncWrap = require("../utilities/asyncWrap");
+
+router
+  .route("/signin")
+  .get(asyncWrap(signin))
+  .post(
+    redirectUrl,
+    passport.authenticate("local", {
+      failureRedirect: "/user/signin",
+      failureFlash: true,
+    }),
+    asyncWrap(postSignin)
+  );
+router.get("/logout", asyncWrap(logout));
+
+router.get("/profile", isauth, asyncWrap(profile));
 
 module.exports = router;

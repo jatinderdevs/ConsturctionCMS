@@ -5,7 +5,6 @@ module.exports.index = async (req, res, next) => {
   const rows = 1;
   const { companyId } = req.user;
   const jobs = await Job.find({ companyId: companyId });
-
   res.render("job/index", { jobs, rows });
 };
 

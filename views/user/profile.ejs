@@ -1,0 +1,135 @@
+<% layout('../includes/layout.ejs') %>
+
+
+<section>
+    <h1 class="alert alert-primary">User Profile</h1>
+    <div class="text-right">
+        <a href="" class="btn btn-warning">Edit</a>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="leftbar">
+                <div class="profilePic">
+                    <img src="https://www.pngitem.com/pimgs/m/581-5813504_avatar-dummy-png-transparent-png.png"
+                        class="img-fluid" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="userDetails py-2">
+                <h4 class=" alert alert-info">Basic Information</h4>
+                <table class="table table-bordered text-capitalize table-striped">
+
+                    <tr>
+                        <td>
+                            <h6 class="m-0">Full Name</h6>
+                        </td>
+                        <td>
+                            <p class="m-0"><%=user.fullname%></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h6 class="m-0">user name</h6>
+                        </td>
+                        <td class="alert alert-info">
+                            <p class="m-0"><span class=""> @<%=user.username%></span> </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <h6 class="m-0">Account Status</h6>
+                        </td>
+                        <td>
+                            <p class="m-0"><span class="alert  <%=user.isactive?'badge-success':'badge-danger'%>">
+                                    <%=user.isactive?'active':'deactivated'%></span></p>
+                        </td>
+                    </tr>
+
+                </table>
+                <h4 class=" alert alert-warning">Contact Information</h4>
+                <table class="table table-bordered text-capitalize table-striped">
+
+                    <tr>
+                        <td>
+                            <h6 class="m-0">Contact Number</h6>
+                        </td>
+                        <td>
+                            <p class="m-0"><%=user.contactNumber%></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h6 class="m-0">email</h6>
+                        </td>
+                        <td>
+                            <p class="m-0"><%=user.email%></p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <h6 class="m-0">Company Name</h6>
+                        </td>
+                        <td>
+                            <p class="m-0"><a href=""> <span
+                                        class="text-success"><%=user.companyId.companyName%></span></a></p>
+                        </td>
+                    </tr>
+
+                </table>
+                <h4 class=" alert alert-danger">Change Password</h4>
+                <form action="" method="post" novalidate class="needs-validation">
+                    <table class="table table-bordered text-capitalize table-striped">
+
+                        <tr>
+                            <td>
+                                <h6 class="m-0">Current password</h6>
+                            </td>
+                            <td>
+                                <input type="password" name="" required class="form-control" id="">
+                                <div class="invalid-feedback">
+                                    Password field is required
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h6 class="m-0">Set New password</h6>
+                            </td>
+                            <td>
+                                <input type="password" name="" required class="form-control" id="">
+                                <div class="invalid-feedback">
+                                    new Password field is required
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <h6 class="m-0">Confirm new password</h6>
+                            </td>
+                            <td>
+                                <input type="password" name="" required class="form-control" id="">
+                                <div class="invalid-feedback">
+                                    confirm Password field is required
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td class="text-right">
+                                <button type="submit" class="btn btn-primary">Update Password</button>
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
