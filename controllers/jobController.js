@@ -9,11 +9,14 @@ module.exports.index = async (req, res, next) => {
 };
 
 module.exports.create = async (req, res, next) => {
-  res.render("job/create", { formData: {}, validateError: {} });
+  res.render("job/create", {
+    formData: { jobDate: new Date() },
+    validateError: {},
+  });
 };
 
 module.exports.createPost = async (req, res, next) => {
-  const { jobNumber, jobDate, location, comment, jobSize } = req.body;
+  const { jobNumber, jobDate, location, jobSize } = req.body;
   const { companyId, _id } = req.user;
   const { unitRate } = await Company.findOne({ _id: companyId }).select(
     "unitRate"
@@ -26,7 +29,6 @@ module.exports.createPost = async (req, res, next) => {
     location,
     unitRate,
     companyId,
-    comment,
     username: _id,
     invoice: {
       invoiceNumber: Math.floor(1000 + Math.random() * 9000),

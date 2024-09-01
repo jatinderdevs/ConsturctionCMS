@@ -1,0 +1,38 @@
+<% layout('../includes/layout.ejs') %>
+
+<section>
+    <h1 class="alert alert-primary">Edit Profile</h1>
+
+    <div class="card p-3">
+        <div class="card-body">
+
+            <form action="" method="post" novalidate class=" row">
+                <div class="col-md-6">
+                    <label for="">fullname</label>
+                    <input type="text" name="fullname" value="<%=user.fullname%>" id="fullname" required
+                        class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label for="">email</label>
+                    <input type="email" name="email" id="email" value="<%=user.email%>" required class="form-control">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="">contact number</label>
+                    <input type="text" name="contactNumber" id="contactNumber" value="<%=user.contactNumber%>" required
+                        class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label for="">image</label>
+                    <input type="file" name="image" id="image" required class="form-control">
+                </div>
+                <div class="col-md-12">
+                    <hr>
+                    <button type="submit" class="btn btn-success">Update Profile Changes</button>
+                    <a href="/user/profile" class="btn btn-dark">Cancel</a>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>

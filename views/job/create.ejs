@@ -18,39 +18,43 @@
                     <label for="">Job Number</label>
                     <input type="text" class="form-control"  id="jobNumber" name="jobNumber" value="<%=formData.jobNumber%>"
         required>
-        <div class="valid-feedback">
-            Looks good!
+        <div class="invalid-feedback">
+            Job Number is required field
         </div>
     </div>
     <div class="col-md-6 mb-3">
-        <label for="">job date</label>
-        <input type="date" class="form-control" id="jobDate" name="jobDate" value="Otto" required>
-        <div class="valid-feedback">
-            Looks good!
+        <label for="">job date <h5><%=formData.jobDate.toISOString().split('T')[0]%></h5>
+        </label>
+        <input type="date" class="form-control" id="jobDate" name="jobDate"
+            value="<%=new Date(formData.jobDate).toISOString().split('T')[0]%>" required>
+        <div class="invalid-feedback">
+            Please provide job Date
         </div>
     </div>
     </div>
     <div class="form-row">
         <div class="col-md-6 mb-3">
             <label for="location">location</label>
-            <input type="text" class="form-control" id="location" name="location" required>
+            <input type="text" class="form-control" id="location" value="<%=formData.location%>" name="location"
+                required>
             <div class="invalid-feedback">
                 Please provide a valid location.
             </div>
         </div>
         <div class="col-md-6 mb-3">
             <label for="jobSize">Job size </label>
-            <input type="text" class="form-control" id="jobSize" name="jobSize">
+            <input type="text" class="form-control" value="<%=formData.jobSize%>" id="jobSize" name="jobSize">
         </div>
-        <div class="col-md-12 mb-6">
+        <!-- <div class="col-md-12 mb-6">
             <label for="comment">comment <i>(optional)</i></label>
             <textarea rows="3" class="form-control" id="comment" name="comment"></textarea>
 
-        </div>
+        </div> -->
 
     </div>
     <hr>
-    <button class="btn btn-info" type="submit">Create</button>
+    <button class="btn btn-success" type="submit">Add New Job</button>
+    <a href="/admin/" class="btn btn-dark">Cancel</a>
     </form>
     </div>
 

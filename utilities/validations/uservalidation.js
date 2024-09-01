@@ -3,7 +3,7 @@ const asyncWrap = require("../asyncWrap");
 
 const userschema = Joi.object({
   fullname: Joi.string().required(),
-  email: Joi.required(),
+  email: Joi.string().required(),
   contact: Joi.string().required(),
   username: Joi.string().min(3).max(8).required(),
   password: Joi.string().min(3).max(10).required(),

@@ -6,11 +6,16 @@ const {
   postSignin,
   profile,
   logout,
+  editProfile,
+  updateProfile,
 } = require("../controllers/userController");
 
 const { redirectUrl, isauth } = require("../utilities/middleware/isauth");
 
 const asyncWrap = require("../utilities/asyncWrap");
+const {
+  validateProfile,
+} = require("../utilities/validations/userProfileValidation");
 
 router
   .route("/signin")
@@ -23,8 +28,14 @@ router
     }),
     asyncWrap(postSignin)
   );
-router.get("/logout", asyncWrap(logout));
 
 router.get("/profile", isauth, asyncWrap(profile));
+
+router
+  .route("/profileupdate")
+  .get(asyncWrap(editProfile))
+  .post(validateProfile, asyncWrap(updateProfile));
+
+router.get("/logout", asyncWrap(logout));
 
 module.exports = router;
