@@ -10,6 +10,7 @@
                 <th scope="col">job number</th>
                 <th scope="col">location</th>
                 <th scope="col">date</th>
+                <th scope="col">status</th>
                 <th scope="col">actions</th>
             </tr>
         </thead>
@@ -33,9 +34,14 @@
                         day: '2-digit' 
                       })%></p>
                 </td>
-
                 <td>
-                    <div class="text-center">
+                    <p><span
+                            class="alert <%=(job.invoice.IsPaid)?'alert-success':'alert-warning'%>"><%=(job.invoice.IsPaid)?'Done':'Pending'%></span>
+                    </p>
+                </td>
+                <td>
+                    <div class="">
+                        <a href="" class="btn btn-sm btn-success">Is Paid</a>
                         <a href="/job/view/<%=job._id%>/<%=currentUser.companyId%>"
                             class="btn btn-sm btn-primary">View</a>
                         <a href="" class="btn btn-sm btn-warning">Edit</a>

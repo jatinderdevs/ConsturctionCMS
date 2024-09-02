@@ -13,20 +13,37 @@
         </div>
         <%}%>
         <form class="" method="post" novalidate>
-            <div class="form-row">
-                <div class="col-md-6 mb-3">
-                    <label for="">Job Number</label>
-                    <input type="text" class="form-control"  id="jobNumber" name="jobNumber" value="<%=formData.jobNumber%>"
+            <div class="form-row align-items-center flex">
+                <div class="col-md-10 mb-5">
+                    <label for="">Select Contractor</label>
+                    <select class="form-control"  id="contractor" name="contractor">
+                        <option value="">Select Company</option>
+                        <option value="">Cormack Company</option>
+                        <option value="">boutique Company</option>
+                        <option value="/admin/"><a href="" class="btn btn-info btn-sm">Create new Contractor</a></option>
+                    </select>
+                    
+                </div>
+                <div class="col-md-2 mb-2 text-center">
+                    <a href="" class="btn btn-info btn-sm">Create new Contractor</a>
+                    
+                </div>
+   
+    </div>
+    <div class="form-row">
+        <div class="col-md-6 mb-3">
+            <label for="">Job Number</label>
+            <input type="text" class="form-control" id="jobNumber" name="jobNumber" value="<%=formData.jobNumber%>"
         required>
         <div class="invalid-feedback">
             Job Number is required field
         </div>
     </div>
     <div class="col-md-6 mb-3">
-        <label for="">job date <h5><%=formData.jobDate.toISOString().split('T')[0]%></h5>
+        <label for="">job date
         </label>
         <input type="date" class="form-control" id="jobDate" name="jobDate"
-            value="<%=new Date(formData.jobDate).toISOString().split('T')[0]%>" required>
+            value="<%= (formData.jobDate)?formData.jobDate.toISOString().split('T')[0]:''%>" required>
         <div class="invalid-feedback">
             Please provide job Date
         </div>

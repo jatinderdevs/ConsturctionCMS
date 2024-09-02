@@ -10,7 +10,7 @@ module.exports.index = async (req, res, next) => {
 
 module.exports.create = async (req, res, next) => {
   res.render("job/create", {
-    formData: { jobDate: new Date() },
+    formData: {},
     validateError: {},
   });
 };
