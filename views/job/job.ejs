@@ -19,7 +19,7 @@
             Add additional Charges
         </button>
 
-        <a href="" class="btn  btn-warning shadow"> Edit</a>
+        <a href="/job/edit/<%=job._id%>" class="btn btn-warning shadow"> Edit</a>
     </div>
     <div class="card p-4 shadow">
         <h1 class="alert alert-primary text-capitalize">Cormack Job</h1>
@@ -30,78 +30,78 @@
                         <b>Job Contractor</b>
                     </div>
                     <div class="card-body">
-                     
-
-                    <strong> Cormack Company</strong>
-                    <span class="">
-                        <p><%=job.companyId.address.street%>, <%=job.companyId.address.suburb%>,
-        <%=job.companyId.address.postCode%></p>
-        </span>
-    </div>
 
 
-    </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header alert alert-info">
-                <b>Payment Status</b>
-            </div>
-            <div class="card-body flex ">
-                <div>
-                    <strong>Invoice Number : </strong>
-                    <h5>
-                        <span class="badge badge-warning"><%=job.invoice.invoiceNumber%></span>
+                        <strong> Cormack Company</strong>
+                        <span class="">
+                            <p><%=job.companyId.address.street%>, <%=job.companyId.address.suburb%>,
+                                <%=job.companyId.address.postCode%></p>
+                        </span>
+                    </div>
 
-                    </h5>
 
                 </div>
-                <div>
-                    <span
-                        class="alert <%=job.invoice.IsPaid?'alert-success':'alert-danger'%>"><%=job.invoice.IsPaid?'Payment Done':'Pending'%></span>
-                </div>
-
-
             </div>
-        </div>
-    </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header alert alert-info">
+                        <b>Payment Status</b>
+                    </div>
+                    <div class="card-body flex ">
+                        <div>
+                            <strong>Invoice Number : </strong>
+                            <h5>
+                                <span class="badge badge-warning"><%=job.invoice.invoiceNumber%></span>
 
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header  alert-success">
-                <b>Job Details</b>
-            </div>
-            <div class="card-body">
-                <div>
+                            </h5>
 
-                    <h5 class="m-0"> <small>Job number :</small> <span class="badge badge-primary ">
-                            #<%=job.jobNumber%></span></h5>
+                        </div>
+                        <div>
+                            <span
+                                class="alert <%=job.invoice.IsPaid?'alert-success':'alert-danger'%>"><%=job.invoice.IsPaid?'Payment Done':'Pending'%></span>
+                        </div>
+
+
+                    </div>
                 </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header  alert-success">
+                        <b>Job Details</b>
+                    </div>
+                    <div class="card-body">
+                        <div>
+
+                            <h5 class="m-0"> <small>Job number :</small> <span class="badge badge-primary ">
+                                    #<%=job.jobNumber%></span></h5>
+                        </div>
 
 
-                <span> <b>Job location : </b> <%=job.location%></span>
-                <br>
-                <span><b>Job date : </b> <%=job.jobDate.toLocaleDateString(undefined, {
+                        <span> <b>Job location : </b> <%=job.location%></span>
+                        <br>
+                        <span><b>Job date : </b> <%=job.jobDate.toLocaleDateString(undefined, {
                     weekday: 'long',
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric',
                   })%></span>
-            </div>
+                    </div>
 
+                </div>
+            </div>
         </div>
-    </div>
-    </div>
-    <hr>
+        <hr>
 
-    <div class="row">
-        <div class="col-md-4">
-            <%if(job.comment){%>
-            <div class="card alert alert-warning">
-                <h4>Comment</h4>
-                <p><%=job.comment%></p>
-            </div>
-            <%}%>
+        <div class="row">
+            <div class="col-md-4">
+                <%if(job.comment){%>
+                <div class="card alert alert-warning">
+                    <h4>Comment</h4>
+                    <p><%=job.comment%></p>
+                </div>
+                <%}%>
             <br>
            
     </div>
@@ -122,65 +122,65 @@
             <tr>
                 <td>houseslable</td>
                 <td><%=job.jobSize%></td>
-            <td><%=job.unitRate.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
-            <td><%=jobCharges.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
+                <td><%=job.unitRate.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
+                <td><%=jobCharges.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
 
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <%if(job.additionalCharges.length>0){%>
-            <%for(let charges of job.additionalCharges){%>
-            <tr>
-                <td></td>
-                <td></td>
-                <td><strong><%=charges.chargeInfo%></strong></td>
-                <td><%=charges.charges.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
-            </tr>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <%if(job.additionalCharges.length>0){%>
+                <%for(let charges of job.additionalCharges){%>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><strong><%=charges.chargeInfo%></strong></td>
+                    <td><%=charges.charges.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
+                </tr>
+                <%}%>
             <%}%>
-            <%}%>
 
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr class="alert alert-dark">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td><strong>Subtotal:</strong></td>
-                <td><%=subtotal.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="alert alert-dark">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><strong>Subtotal:</strong></td>
+                    <td><%=subtotal.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
 
-            </tr>
-            <tr>
-                <td></td>
-                <td><strong>GST</strong></td>
-                <td><strong>10%</strong></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><strong>GST</strong></td>
+                    <td><strong>10%</strong></td>
 
-                <td><%=GST.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
+                    <td><%=GST.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
 
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td><strong>Grand Total</strong></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><strong>Grand Total</strong></td>
 
-                <td><%=totalInvoice.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
+                    <td><%=totalInvoice.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
 
-            </tr>
-            </tbody>
-            </table>
-        </div>
+                </tr>
+                </tbody>
+                </table>
+            </div>
 </section>
 <section>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

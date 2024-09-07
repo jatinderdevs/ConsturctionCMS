@@ -1,0 +1,120 @@
+<% layout('../includes/layout.ejs') %>
+
+<section>
+    <h1 class="alert  alert-primary">Edit Job Details</h1>
+    <hr>
+    <div class="card p-4">
+        <%if(validateError && validateError.length){%>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong> <%=validateError %></strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <%}%>
+        <form class="" method="post" novalidate>
+          
+            <label for="">Select Contractor </label>
+            <br>
+            <div for="inlineRadio1" class="form-check form-check-inline badge badge-warning p-3">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                <label class="form-check-label" for="inlineRadio1">Cormack Company</label>
+              </div>
+              <div class="form-check form-check-inline badge badge-warning p-3">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                <label class="form-check-label" for="inlineRadio2">Boutique</label>
+              </div>
+              <div class="form-check form-check-inline badge badge-warning p-3">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" >
+                <label class="form-check-label" for="inlineRadio3">Private Job</label>
+              </div>
+              
+    <div class="form-row">
+        <div class="col-md-6 mb-3">
+            <label for="">Job Number</label>
+            <input type="text" class="form-control" id="jobNumber" name="jobNumber" value="<%=jobData.jobNumber%>"
+        required>
+        <div class="invalid-feedback">
+            Job Number is required field
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="">job date
+        </label>
+        <input type="date" class="form-control" id="jobDate" name="jobDate"
+            value="<%= (jobData.jobDate)?jobData.jobDate.toISOString().split('T')[0]:''%>" required>
+        <div class="invalid-feedback">
+            Please provide job Date
+        </div>
+    </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6 mb-3">
+            <label for="location">location</label>
+            <input type="text" class="form-control" id="location" value="<%=jobData.location%>" name="location"
+                required>
+            <div class="invalid-feedback">
+                Please provide a valid location.
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="jobSize">Job size </label>
+            <input type="text" class="form-control" value="<%=jobData.jobSize%>" id="jobSize" name="jobSize">
+        </div>
+        <div class="col-md-6 ">
+            <!-- <table class="table table-bordered table-responsive table-info ">
+                <tr>
+                    <td><input type="checkbox" name="" id=""></td>
+                    <td>sdfsdfsdf</td>
+                    <td>65465</td>
+                    <td><button class="btn btn-sm btn-danger"> X</button></td>
+
+                </tr>
+            </table> -->
+            <div class="p-3 ">
+                <span id="emptyAlert" class="blockquote-footer alert-info">There is no additional Charges for this
+                    job</span>
+                <%for(let e of jobData.additionalCharges){%>
+
+                <div class="form-check alert alert-info countExtra  d-flex justify-content-between">
+
+                    <div>
+                        <input checked style="opacity: 0;" class="form-check-input" type="checkbox" value="<%=e._id%>"
+                            id="charges[]" name="charges">
+                    </div>
+                    <strong class="text-capitalize"> <%=e.chargeInfo%></strong>
+                    <span><%=e.charges.toLocaleString("en-US", { style: "currency", currency: "USD" })%></span>
+                    <button type="button" onclick="removeItem(this)" class="btn btn-danger btnDelete btn-sm">x</button>
+                </div>
+                <%}%>
+            </div>
+           
+           
+        </div>
+    </div>
+
+
+    <hr>
+    <button class="btn btn-primary" type="submit">Update Changes</button>
+    <a href="/job/view/<%=jobData._id%>/<%=currentUser.companyId%>" class="btn btn-dark">Cancel</a>
+                </form>
+            </div>
+
+
+
+</section>
+
+<script>
+    const messaege = document.querySelector('#emptyAlert');
+    messaege.style.display = 'none';
+
+    const removeItem = (e) => {
+        const div = e.parentElement;
+        div.remove();
+        const extraCharges = document.querySelectorAll('.countExtra').length;
+        if (extraCharges == 0) {
+            messaege.style.display = 'block';
+
+        }
+    }
+</script>

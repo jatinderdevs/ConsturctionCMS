@@ -8,6 +8,8 @@ const {
   index,
   job,
   additionalCharges,
+  edit,
+  update,
 } = require("../controllers/jobController");
 
 const { isJobDataValid } = require("../utilities/validations/jobValidate");
@@ -18,6 +20,8 @@ router
   .route("/create")
   .get(asyncWrap(create))
   .post(isJobDataValid, asyncWrap(createPost));
+
+router.route("/edit/:id").get(asyncWrap(edit)).post(asyncWrap(update));
 
 router.post("/charges/", asyncWrap(additionalCharges));
 
