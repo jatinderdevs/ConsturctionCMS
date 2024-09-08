@@ -12,7 +12,7 @@
             </button>
         </div>
         <%}%>
-        <form class="" method="post" novalidate>
+        <form class="needs-validation" method="post" novalidate>
           
             <label for="">Select Contractor </label>
             <br>
@@ -32,7 +32,7 @@
     <div class="form-row">
         <div class="col-md-6 mb-3">
             <label for="">Job Number</label>
-            <input type="text" class="form-control" id="jobNumber" name="jobNumber" value="<%=jobData.jobNumber%>"
+            <input type="text"  class="form-control" id="jobNumber" name="jobNumber" value="<%=jobData.jobNumber%>"
         required>
         <div class="invalid-feedback">
             Job Number is required field
@@ -44,7 +44,7 @@
         <input type="date" class="form-control" id="jobDate" name="jobDate"
             value="<%= (jobData.jobDate)?jobData.jobDate.toISOString().split('T')[0]:''%>" required>
         <div class="invalid-feedback">
-            Please provide job Date
+            Please provide a Valid job Date
         </div>
     </div>
     </div>
@@ -52,14 +52,18 @@
         <div class="col-md-6 mb-3">
             <label for="location">location</label>
             <input type="text" class="form-control" id="location" value="<%=jobData.location%>" name="location"
-                required>
+                required />
             <div class="invalid-feedback">
                 Please provide a valid location.
             </div>
         </div>
         <div class="col-md-6 mb-3">
             <label for="jobSize">Job size </label>
-            <input type="text" class="form-control" value="<%=jobData.jobSize%>" id="jobSize" name="jobSize">
+            <input type="number" required class="form-control" value="<%=jobData.jobSize%>" step="0.01" id="jobSize"
+                name="jobSize">
+            <div class="invalid-feedback">
+                Please Provide a job Size
+            </div>
         </div>
         <div class="col-md-6 ">
             <!-- <table class="table table-bordered table-responsive table-info ">

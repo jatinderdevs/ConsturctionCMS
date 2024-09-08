@@ -1,0 +1,71 @@
+<% layout('../includes/companyLayout.ejs') %>
+
+
+<div class="infoBox">
+    <h3 class="alert alert-dark">Contractors</h3>
+    <div class="text-right my-2">
+        <a href="/contractor/create" class="btn btn-success">Add New Contractor</a>
+    </div>
+    <div id="accordion">
+        <div class="card">
+            <%for(let c of contractors){%>
+            <div class="card-header alert-primary shadow" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn text-capitalize" data-toggle="collapse" data-target="#" aria-expanded="true"
+                        aria-controls="collapseOne">
+                        <b> <%=c.conName%></b> &nbsp;<span class="badge badge-danger">Deafult</span>
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+
+                        <strong>Contact Number : <%=c.conPhone%> </strong>
+                        <br>
+                        <strong>Email: <%=c.conEmail%> </strong>
+                    </div>
+
+                    <div class="text-center alert-secondary  p-2 rounded ">
+                        <strong>Unit Price Rate</strong>
+                        <h4 class="text-danger"><b>
+                                <%=c.unitPriceRate.toLocaleString("en-US", { style: "currency", currency: "USD" })%></b>
+                        </h4>
+                    </div>
+                    <div>
+                        <a href="/contractor/edit/<%=c._id%>" class="btn btn-primary btn-sm">Edit</a>
+                        <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal"
+                            data-target="#exampleModal">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+                <!-- modal pop up for delete button -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header alert-danger">
+                                <h5 class="modal-title " id="exampleModalLabel">Are you Sure to delete this
+                                    item?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>to note, once you removed this item, it may impact on the previously enterd items</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-danger">Yes! Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%}%>
+            </div>
+</div>
+
+</div>
+</div>
