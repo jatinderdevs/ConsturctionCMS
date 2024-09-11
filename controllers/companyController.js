@@ -12,8 +12,7 @@ module.exports.index = async (req, res, next) => {
 };
 
 module.exports.createUpdate = async (req, res, next) => {
-  const { companyName, contactNumber, email, logo, address, bank, unitRate } =
-    req.body;
+  const { companyName, contactNumber, email, logo, address, bank } = req.body;
   const addCompany = new Company({
     companyName,
     logo,
@@ -22,7 +21,6 @@ module.exports.createUpdate = async (req, res, next) => {
     address: address,
     bankDetails: bank,
     username: req.user,
-    unitRate,
   });
   const company = await addCompany.save();
   const currentUser = await User.findOne({ _id: req.user._id });

@@ -37,10 +37,6 @@ const companySchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "user",
     },
-    unitRate: {
-      type: Number,
-      required: true,
-    },
   },
   { timestamps: true }
 );

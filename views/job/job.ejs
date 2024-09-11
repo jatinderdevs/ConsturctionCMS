@@ -32,10 +32,9 @@
                     <div class="card-body">
 
 
-                        <strong> Cormack Company</strong>
+                        <strong><%=job.contractorDetails.contractor.conName%></strong>
                         <span class="">
-                            <p><%=job.companyId.address.street%>, <%=job.companyId.address.suburb%>,
-                                <%=job.companyId.address.postCode%></p>
+                            <p><%=job.contractorDetails.contractor.conAddress%></p>
                         </span>
                     </div>
 
@@ -122,7 +121,8 @@
             <tr>
                 <td>houseslable</td>
                 <td><%=job.jobSize%></td>
-                <td><%=job.unitRate.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
+                <td><%=job.contractorDetails.unitPriceRate.toLocaleString("en-US", { style: "currency", currency: "USD" })%>
+                </td>
                 <td><%=jobCharges.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
 
                 </tr>

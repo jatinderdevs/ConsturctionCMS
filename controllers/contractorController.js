@@ -25,6 +25,7 @@ module.exports.postCreate = async (req, res, next) => {
   });
 
   await createContractor.save();
+  req.flash("success", "contractor has been created successfully");
   return res.redirect("/contractor/index");
 };
 
@@ -61,5 +62,6 @@ module.exports.update = async (req, res, next) => {
       companyId,
     }
   );
+  req.flash("success", "Details has been updated successfully");
   return res.redirect("/contractor/index");
 };

@@ -1,4 +1,5 @@
 const Company = require("../models/company");
+const Contractor = require("../models/contractor");
 const Job = require("../models/Jobs");
 const { jobValidation } = require("../utilities/validations/jobValidate");
 
@@ -10,25 +11,32 @@ module.exports.index = async (req, res, next) => {
 };
 
 module.exports.create = async (req, res, next) => {
+  const { _id, companyId } = req.user;
+  const contractors = await Contractor.find({ username: _id, companyId });
   res.render("job/create", {
     formData: {},
     validateError: {},
+    contractors,
   });
 };
 
 module.exports.createPost = async (req, res, next) => {
-  const { jobNumber, jobDate, location, jobSize } = req.body;
+  const { jobNumber, jobDate, location, jobSize, contractorId } = req.body;
   const { companyId, _id } = req.user;
-  const { unitRate } = await Company.findOne({ _id: companyId }).select(
-    "unitRate"
-  );
+  const { unitPriceRate } = await Contractor.findOne({
+    username: _id,
+    companyId,
+  }).select("unitPriceRate");
 
   const newJob = new Job({
     jobNumber,
     jobDate,
     jobSize,
     location,
-    unitRate,
+    contractorDetails: {
+      contractor: contractorId,
+      unitPriceRate,
+    },
     companyId,
     username: _id,
     invoice: {
@@ -44,19 +52,29 @@ module.exports.createPost = async (req, res, next) => {
 module.exports.job = async (req, res, next) => {
   const { id, company } = req.params;
   const { _id } = req.user;
+
   const job = await Job.findOne({
     companyId: company,
     _id: id,
     username: _id,
-  }).populate("companyId");
+  })
+    .populate("companyId")
+    .populate({
+      path: "contractorDetails.contractor",
+      select: "conName conAddress",
+    });
 
-  const { jobSize, unitRate, additionalCharges } = job;
+  const { jobSize, contractorDetails, additionalCharges } = job;
+
+  //unit rate price get it from contractor collection (this price save at the time job creation)
+  const { unitPriceRate } = contractorDetails;
+
   const add_charges = additionalCharges.reduce(
     (total, val) => total + val.charges,
     0
   );
 
-  const jobCharges = jobSize * unitRate;
+  const jobCharges = jobSize * unitPriceRate;
   const subtotal = jobCharges + add_charges;
   const GST = subtotal * 0.1;
   const totalInvoice = subtotal + GST;
@@ -111,6 +129,7 @@ module.exports.update = async (req, res, next) => {
   jobData.jobSize = jobSize;
   jobData.additionalCharges = updatedCharges;
   await jobData.save();
+  req.flash("success", "Job has been updated successfully");
   //create link to redirect back to the view page
   return res.redirect(`/job/view/${id}/${companyId}`);
 };

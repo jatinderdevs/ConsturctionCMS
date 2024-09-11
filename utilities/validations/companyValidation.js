@@ -22,7 +22,6 @@ const companyValidateSchema = Joi.object({
   email: Joi.string().required(),
   address: adresSchema,
   bank: bankSchema,
-  unitRate: Joi.number().required(),
 }).unknown(true);
 
 module.exports.isCompanyDataValid = asyncWrap(async (req, res, next) => {

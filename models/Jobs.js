@@ -21,9 +21,16 @@ const jobSchema = new Schema(
       type: String,
       required: true,
     },
-    unitRate: {
-      type: Number,
-      required: true,
+    contractorDetails: {
+      contractor: {
+        type: Schema.Types.ObjectId,
+        ref: "contractor",
+        required: true,
+      },
+      unitPriceRate: {
+        type: Number,
+        required: true,
+      },
     },
     invoice: {
       invoiceNumber: {
