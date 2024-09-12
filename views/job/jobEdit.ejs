@@ -14,22 +14,25 @@
         <%}%>
         <form class="needs-validation" method="post" novalidate>
           
-            <label for="">Select Contractor </label>
-            <br>
-            <div for="inlineRadio1" class="form-check form-check-inline badge badge-warning p-3">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                <label class="form-check-label" for="inlineRadio1">Cormack Company</label>
-              </div>
-              <div class="form-check form-check-inline badge badge-warning p-3">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                <label class="form-check-label" for="inlineRadio2">Boutique</label>
-              </div>
-              <div class="form-check form-check-inline badge badge-warning p-3">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" >
-                <label class="form-check-label" for="inlineRadio3">Private Job</label>
-              </div>
               
     <div class="form-row">
+        <div class="col-md-12">
+            <label for="">Select Contractor <i>(Job provider)</i> </label>
+            <br>
+        <select name="contractorId" id="contractorId" class="form-control ">
+            <option value="">Select Contractor</option>
+
+            <%for(let c of contractors){%>
+        <option <%=(jobData.contractorDetails.contractor?.toString()===c._id?.toString())?'selected':''%>
+            value="<%=c._id%>">
+            <%=c.conName%>
+        </option>
+
+        <%}%>
+         <option value="add" class="btn btn-danger " data-toggle="tooltip" data-placement="top" title="Tooltip on top"> add new contractor</option>
+            </select>
+            <br>
+        </div>
         <div class="col-md-6 mb-3">
             <label for="">Job Number</label>
             <input type="text"  class="form-control" id="jobNumber" name="jobNumber" value="<%=jobData.jobNumber%>"

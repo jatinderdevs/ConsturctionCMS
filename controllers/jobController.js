@@ -90,24 +90,40 @@ module.exports.job = async (req, res, next) => {
 
 module.exports.edit = async (req, res, next) => {
   const { id } = req.params;
-  const { _id } = req.user;
-  // console.log(job_id, _id);
+  const { _id, companyId } = req.user;
+
+  const contractors = await Contractor.find({ username: _id, companyId });
   const jobData = await Job.findOne({ _id: id, username: _id });
 
   res.render("job/jobEdit", {
     jobData,
     validateError: {},
+    contractors,
   });
 };
 
 module.exports.update = async (req, res, next) => {
   const { value, error } = jobValidation.validate(req.body);
-  const { charges, jobNumber, jobDate, location, jobSize } = req.body;
+  const { charges, jobNumber, jobDate, location, jobSize, contractorId } =
+    req.body;
   const { companyId } = res.locals.currentUser;
   const { id } = req.params;
   const { _id } = req.user;
 
   const jobData = await Job.findOne({ _id: id, username: _id });
+
+  //get selected contractor details and process to save the informmation
+  //and check if the value changed for contract than only request to DB
+  if (!jobData.contractorDetails.contractor.equals(contractorId)) {
+    const { unitPriceRate } = await Contractor.findOne({
+      username: _id,
+      _id: contractorId,
+    }).select("unitPriceRate");
+    jobData.contractorDetails = {
+      contractor: contractorId,
+      unitPriceRate: unitPriceRate,
+    };
+  }
 
   if (error) {
     return res.render("job/jobEdit", {
@@ -128,6 +144,7 @@ module.exports.update = async (req, res, next) => {
   jobData.location = location;
   jobData.jobSize = jobSize;
   jobData.additionalCharges = updatedCharges;
+
   await jobData.save();
   req.flash("success", "Job has been updated successfully");
   //create link to redirect back to the view page

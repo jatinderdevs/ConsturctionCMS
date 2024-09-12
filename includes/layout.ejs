@@ -110,6 +110,12 @@
         $('[data-toggle="tooltip"]').tooltip()
     })
 </script>
-
+<script>
+    document.querySelector("#contractorId").addEventListener('change', (e) => {
+        if (e.target.options[e.target.selectedIndex].value === "add") {
+            window.location.href = "/contractor/create"
+        }
+    })
+</script>
 
 </html>
