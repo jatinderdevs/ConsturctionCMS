@@ -17,26 +17,41 @@
             
     <div class="form-row align-items-center">
         <div class="col-md-12">
+           
             <label for="">Select Contractor <i>(Job provider)</i> </label>
-            <br>
-            <select name="contractorId" id="contractorId" class="form-control " >
-            <option value="" >Select Contractor</option>
-                
-                <%for(let c of contractors){%>
-        <option <%=(formData.contractorId?.toString()===c._id?.toString())?'selected':''%> value="<%=c._id%>">
-            <%=c.conName%>
-        </option>
-
-        <%}%>
-         <option value="add" class="btn btn-danger " data-toggle="tooltip" data-placement="top" title="Tooltip on top"> add new contractor</option>
-            </select>
-            <br>
+            <%if(contractors.length<=1){%>
+        <div class="input-group is-invalid">
+            <div class="custom-file">
+                <input type="text" value="<%=contractors[0].conName%>" readonly class="custom-file-input form-control">
+                <input type="hidden" id="contractorId" name="contractorId" value="<%=contractors[0]._id%>">
+            </div>
+            <div class="input-group-append">
+                <a href="/contractor/create" class="btn btn-outline-warning" type="button">Create New Contractor</a>
+            </div>
         </div>
-        
-        <div class="col-md-6 mb-3">
-            <label for="">Job Number</label>
-            <input type="text" class="form-control" id="jobNumber" name="jobNumber" value="<%=formData.jobNumber%>"
-        required>
+        <br>
+        <%}else{%>
+        <select name="contractorId" id="contractorId" class="form-control ">
+            <option value="">Select Contractor</option>
+
+            <%for(let c of contractors){%>
+            <option <%=(formData.contractorId?.toString()===c._id?.toString())?'selected':''%> value="<%=c._id%>">
+                <%=c.conName%>
+            </option>
+
+            <%}%>
+                     <option value="add" class="btn btn-danger " data-toggle="tooltip" data-placement="top" title="Tooltip on top"> add new contractor</option>
+                        </select>
+                        <br>
+                    <%}%>
+
+
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label for="">Job Number</label>
+        <input type="text" class="form-control" id="jobNumber" name="jobNumber" value="<%=formData.jobNumber%>"
+            required>
         <div class="invalid-feedback">
             Job Number is required field
         </div>

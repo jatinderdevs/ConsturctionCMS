@@ -24,7 +24,10 @@ const contractor = require("./routes/contractorRoute");
 
 //middleware
 const { isauth, isAdmin } = require("./utilities/middleware/isauth");
-const { isCompany } = require("./utilities/middleware/misMiddleware");
+const {
+  isCompany,
+  isContractor,
+} = require("./utilities/middleware/misMiddleware");
 
 //settting View engines and views
 app.set("view engine", "ejs");
@@ -78,13 +81,13 @@ app.use((req, res, next) => {
 app.use("/user", userRoute);
 app.use("/dashboard", isauth, isAdmin, dashboard);
 app.use("/company", isauth, company);
-app.use("/admin", isauth, isCompany, admin);
-app.use("/job", isauth, isCompany, job);
+app.use("/admin", isauth, isCompany, isContractor, admin);
+app.use("/job", isauth, isCompany, isContractor, job);
 app.use("/contractor", isauth, isCompany, contractor);
 
 app.use((err, req, res, next) => {
   const { status = 500, message = "something Went wrong!" } = err;
-  res.status(status).render("500.ejs", { message });
+  return res.status(status).render("500.ejs", { message });
 });
 
 app.use("*", (req, res, next) => {
