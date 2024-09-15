@@ -7,6 +7,7 @@ const {
   postCreate,
   update,
   edit,
+  Cdelete,
 } = require("../controllers/contractorController");
 const {
   isContractorValid,
@@ -24,3 +25,5 @@ router
   .get(asyncWrap(edit))
   .post(isContractorValid, asyncWrap(update));
 module.exports = router;
+
+router.post("/remove", asyncWrap(Cdelete));

@@ -6,7 +6,6 @@ const contractorSchema = new Schema({
   conName: {
     type: String,
     required: true,
-    unique: true,
   },
   conAddress: {
     type: String,
@@ -15,7 +14,6 @@ const contractorSchema = new Schema({
   conEmail: {
     type: String,
     required: true,
-    unique: true,
   },
   conPhone: {
     type: String,
@@ -38,6 +36,12 @@ const contractorSchema = new Schema({
     ref: "company",
     required: true,
   },
+});
+
+contractorSchema.pre("findOneAndDelete", function (next) {
+  const { _id, username } = this.getFilter();
+  //here you can code for delete all the job realate to the specific contract
+  next();
 });
 
 module.exports = mongoose.model("contractor", contractorSchema);

@@ -49,16 +49,25 @@
                             <div class="modal-header alert-danger">
                                 <h5 class="modal-title " id="exampleModalLabel">Are you Sure to delete this
                                     item?</h5>
+
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <p>to note, once you removed this item, it may impact on the previously enterd items</p>
+                                <p>WARNING! deleting Contractor Will remove all the job details of realted to this
+                                    Contractor
+                                    <br>
+                                    <small>you can also Deactive this Contractor instead removing</small>
+                                </p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-danger">Yes! Delete</button>
+                                <form action="/contractor/remove" method="post">
+                                    <input type="hidden" name="C_id" id="C_id" value="<%=c._id%>">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger">Yes! Delete</button>
+                                </form>
+
                             </div>
                         </div>
                     </div>

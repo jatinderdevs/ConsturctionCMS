@@ -1,5 +1,7 @@
 const Contractor = require("../models/contractor");
 
+const Job = require("../models/Jobs");
+
 module.exports.index = async (req, res, next) => {
   const { _id, companyId } = req.user;
 
@@ -64,4 +66,21 @@ module.exports.update = async (req, res, next) => {
   );
   req.flash("success", "Details has been updated successfully");
   return res.redirect("/contractor/index");
+};
+
+module.exports.Cdelete = async (req, res, next) => {
+  const { C_id } = req.body;
+  const { _id } = req.user;
+  const isJobExist = await Job.findOne({
+    "contractorDetails.contractor": C_id,
+  });
+  if (!isJobExist) {
+    await Contractor.findOneAndDelete({ _id: C_id, username: _id });
+
+    req.flash("error", "contractor removed successfully");
+    return res.redirect("/contractor/index");
+  } else {
+    req.flash("error", "There are jobs realted to this contractor!");
+    return res.redirect("/contractor/index");
+  }
 };
