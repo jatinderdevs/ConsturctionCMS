@@ -2,24 +2,32 @@
 
 <section>
     <div class="actionbtn flex py-3">
-        <%if(!job.isInvoiceGenrate){%>
-        <form action="/jobinvoice/genrate" method="post" style="display: inline-block;">
-            <input type="hidden" name="totalInvoiceAmount" value="<%=totalInvoice%>">
+        <form action="" method="">
             <input type="hidden" name="jobId" value="<%=job._id%>">
-            <input type="hidden" name="username" value="<%=job.username%>">
-            <button type="submit" class="btn  btn-success shadow"> Download Invoice</button>
-
+            <button class="btn btn-danger">Delete</button>
         </form>
-        <%}else{%>
-        <button class="btn btn-success" disabled>Genrated</button>
 
-        <%}%>
 
         <button type="button" class="btn  btn-primary" data-toggle="modal" data-target="#exampleModal">
             Add additional Charges
         </button>
 
-        <a href="/job/edit/<%=job._id%>" class="btn btn-warning shadow"> Edit</a>
+        <a href="/job/edit/<%=job._id%>" class="btn btn-warning shadow"> Edit Details</a>
+
+        <a href="/job/genrate/<%=job._id%>" class="btn  btn-success shadow">Download Invoice</a>
+        <!-- <%if(!job.isInvoiceGenrate){%>
+        <form action="/job/genrate" method="post" style="display: inline-block;">
+            <input type="hidden" name="totalInvoiceAmount" value="<%=totalInvoice%>">
+            <input type="hidden" name="jobId" value="<%=job._id%>">
+            <input type="hidden" name="username" value="<%=job.username%>">
+
+
+        </form>
+        <%}else{%>
+        <button class="btn btn-success" disabled>Genrated</button>
+
+        <%}%> -->
+
     </div>
     <div class="card p-4 shadow">
         <h1 class="alert alert-primary text-capitalize">Cormack Job</h1>
