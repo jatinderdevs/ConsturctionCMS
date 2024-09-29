@@ -15,6 +15,8 @@
         <a href="/job/edit/<%=job._id%>" class="btn btn-warning shadow"> Edit Details</a>
 
         <a href="/job/genrate/<%=job._id%>" class="btn  btn-success shadow">Download Invoice</a>
+        <a href="#" class="btn btn-info shadow"> Payment Complete</a>
+
         <!-- <%if(!job.isInvoiceGenrate){%>
         <form action="/job/genrate" method="post" style="display: inline-block;">
             <input type="hidden" name="totalInvoiceAmount" value="<%=totalInvoice%>">
@@ -190,52 +192,51 @@
                 </table>
             </div>
 </section>
-<section>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title alert alert-primary" id="exampleModalLabel">Additional Charges</h5>
-                    <button type="button" class="close btn btn-outline-danger" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="/job/charges/" method="post" novalidate class="needs-validation">
-                        <input type="hidden" name="jobId" value="<%=job._id%>">
-                        <input type="hidden" name="companyId" value="<%=job.companyId._id%>">
-                        <div class="form-group">
-                            <label for="chargesInfo">Charges Info</label>
-                            <input type="text" class="form-control" id="chargesInfo" name="chargesInfo" required
-                                aria-describedby="emailHelp">
-                            <div class="invalid-feedback">
-                                Please provide a Charges Details
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="charges">charges</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">$</div>
-                                </div>
-                                <input type="number" required class="form-control" id="charges" name="charges"
-                                    placeholder="charges">
-                                <div class="invalid-feedback">
-                                    Provide charges value
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <button type="submit" class="btn btn-primary">Update</button>
-
-                        </div>
-                    </form>
-                </div>
-
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title alert alert-primary" id="exampleModalLabel">Additional Charges</h5>
+                <button type="button" class="close btn btn-outline-danger" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <div class="modal-body">
+                <form action="/job/charges/" method="post" novalidate class="needs-validation">
+                    <input type="hidden" name="jobId" value="<%=job._id%>">
+                    <input type="hidden" name="companyId" value="<%=job.companyId._id%>">
+                    <div class="form-group">
+                        <label for="chargesInfo">Charges Info</label>
+                        <input type="text" class="form-control" id="chargesInfo" name="chargesInfo" required
+                            aria-describedby="emailHelp">
+                        <div class="invalid-feedback">
+                            Please provide a Charges Details
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="charges">charges</label>
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">$</div>
+                            </div>
+                            <input type="number" required class="form-control" id="charges" name="charges"
+                                placeholder="charges">
+                            <div class="invalid-feedback">
+                                Provide charges value
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary">Update</button>
+
+                    </div>
+                </form>
+            </div>
+
         </div>
     </div>
-</section>
+</div>
+
 <script>
     var element = document.getElementById('test');
     var options = {

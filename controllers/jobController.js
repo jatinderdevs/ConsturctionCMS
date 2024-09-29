@@ -225,6 +225,12 @@ module.exports.genrateInvoice = async (req, res, next) => {
 };
 
 const InvoiceTemplate = (InvoiceData) => {
+  const { jobNumber, jobDate, location, jobSize, invoice, createdAt } =
+    InvoiceData.job;
+  const { contractor, unitPriceRate } = InvoiceData.job.contractorDetails;
+  const { companyName, address, bankDetails } = InvoiceData.job.companyId;
+  const { street, suburb, postCode } = address;
+  const { ABN_number } = bankDetails;
   var add_charges = "";
   for (let charges of InvoiceData.job.additionalCharges) {
     add_charges += `<tr>
@@ -237,6 +243,7 @@ const InvoiceTemplate = (InvoiceData) => {
         })}</td>
     </tr>`;
   }
+
   return `<!DOCTYPE html>
 <html lang="en">
 
@@ -246,27 +253,90 @@ const InvoiceTemplate = (InvoiceData) => {
     <title>Document</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/stylesheet.css">
+    <style>
+    p{
+    font-size:18px;
+    }
+    </style>
 </head>
 
 <body>
    
     <main>
-        <div class="container">
-            
-<section>
-<div class="row">
+    <section>
+        <div class="containedr">
+        <div class="row">
+
   <div class="col-md-8">
   </div>
-  <div class="col-md-4">
-   <h3>${InvoiceData.job.contractorDetails.contractor.conName}</h3>
+  <div class="col-md-4 text-right">
+   <h1>${companyName}</h1>
+   <p>
+   
+    ${street},${suburb},${postCode}
+  
+  
+   </p>
+     
+     <p>ABN:<strong> ${ABN_number}</strong></p>
+  </div>
+
+</div>
+            
+
+     <br/>
+
+<div class="row">
+
+  <div class="col-md-7">
+  </div>
+  <div class="col-md-5 text-right">
+   <h2>INVOICE</h2>
     <p>
-    ${InvoiceData.job.contractorDetails.contractor.conAddress}
+   Invoice Date: <strong>${createdAt.toLocaleDateString(undefined, {
+     weekday: "long",
+     year: "numeric",
+     month: "long",
+     day: "numeric",
+   })}</strong>
+    </p>
+     <p>
+   Invoice Number: <strong>${invoice.invoiceNumber}</strong>
     </p>
   </div>
 
 </div>
-   
+<hr/>
+   <div class="row">
+
+ 
+  <div class="col-md-4">
+    <h4>To</h4>
+   <h3>${contractor.conName}</h3>
+    <p>
+    ${contractor.conAddress}
+    </p>
+  </div>
+ <div class="col-md-8">
+  </div>
+</div>
+ <div class="row">
+
+ 
+  <div class="col-md-5">
+  <p>Job Location:<strong>${location}</strong></p>
+  <p>Job Number:<strong>${jobNumber}</strong></p>
+  <p>Job Date:<strong>${jobDate.toLocaleDateString(undefined, {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  })}</strong></p>
+
+  </div>
+ <div class="col-md-7">
+  </div>
+</div>
     <hr/>
     <table class="table table-bordered text-capitalize mt-4">
     <thead class="alert alert-primary ">
@@ -281,14 +351,11 @@ const InvoiceTemplate = (InvoiceData) => {
     <tbody>
         <tr>
             <td>houseslable</td>
-            <td>${InvoiceData.job.jobSize}</td>
-            <td>${InvoiceData.job.contractorDetails.unitPriceRate.toLocaleString(
-              "en-US",
-              {
-                style: "currency",
-                currency: "USD",
-              }
-            )}
+            <td>${jobSize}</td>
+            <td>${unitPriceRate.toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}
             </td>
             <td>${InvoiceData.jobCharges.toLocaleString("en-US", {
               style: "currency",
@@ -342,62 +409,36 @@ const InvoiceTemplate = (InvoiceData) => {
                 <td></td>
                 <td><strong>Grand Total</strong></td>
 
-                <td>${InvoiceData.totalInvoice.toLocaleString("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                })}</td>
+                <td><strong> ${InvoiceData.totalInvoice.toLocaleString(
+                  "en-US",
+                  {
+                    style: "currency",
+                    currency: "USD",
+                  }
+                )}</strong></td>
 
             </tr>
             </tbody>
             </table>
         </div>
-</section>
-<section>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title alert alert-primary" id="exampleModalLabel">Additional Charges</h5>
-                    <button type="button" class="close btn btn-outline-danger" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="/job/charges/" method="post" novalidate class="needs-validation">
-                        <input type="hidden" name="jobId" value="66e6b61cb8f1819b9ffd5181">
-                        <input type="hidden" name="companyId" value="66e6743e33e80742a181a4ac">
-                        <div class="form-group">
-                            <label for="chargesInfo">Charges Info</label>
-                            <input type="text" class="form-control" id="chargesInfo" name="chargesInfo" required
-                                aria-describedby="emailHelp">
-                            <div class="invalid-feedback">
-                                Please provide a Charges Details
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="charges">charges</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">$</div>
-                                </div>
-                                <input type="number" required class="form-control" id="charges" name="charges"
-                                    placeholder="charges">
-                                <div class="invalid-feedback">
-                                    Provide charges value
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <button type="submit" class="btn btn-primary">Update</button>
+        <strong class="h5">Please pay the above amount to:</strong>
+        <hr/>
+        <div class="row">
 
-                        </div>
-                    </form>
-                </div>
+ 
+  <div class="col-md-4">
+    
+   <h3>${bankDetails.bankName}</h3>
 
-            </div>
-        </div>
-    </div>
+    <p class="m-0"> BSB: <strong>${bankDetails.BSB}</strong>    </p>
+    <p> Account Number: <strong>${bankDetails.accountNumber}</strong>    </p>
+
+  </div>
+ <div class="col-md-8">
+  </div>
+</div>
 </section>
+
 <script>
     var element = document.getElementById('test');
     var options = {
