@@ -15,10 +15,10 @@
             </div>
             <%}%>
             <form action="" class="row" method="post">
-               
-                <div class="col-md-6">
-                    <label for="">Contractor Compnay Name </label>
-                    <input type="text" name="conName" id="conName" value="<%=formData.conName%>" class="form-control">
+              
+    <div class="col-md-6">
+        <label for="">Contractor Compnay Name </label>
+        <input type="text" name="conName" id="conName" value="<%=formData.conName%>" class="form-control">
         </div>
 
         <div class="col-md-6">
@@ -38,15 +38,33 @@
             <label for="">Address </label>
             <input type="text" name="conAddress" id="conAddress" value="<%=formData.conAddress%>" class="form-control">
         </div>
+        <%if(update){%>
+        <div class="col-md-12 alert shadow">
+            <%=formData.isActive?'checked':''%>
+            <small>Change the contractor status</small>
+            <br>
+            <div class="custom-control custom-radio custom-control-inline">
+
+                <input type="radio" id="isActive1" <%=formData.isActive===true?'checked':''%> name="isActive"
+                    class="custom-control-input" value="true">
+                <label class="custom-control-label badge badge-success" for="isActive1">Activate</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="isActive2" name="isActive" <%=formData.isActive===false?'checked':''%>
+                    class="custom-control-input" value="false">
+                <label class="custom-control-label badge badge-danger" for="isActive2">deactivate</label>
+            </div>
+        </div>
+        <%}%>
         <div class="col-md-12">
             <hr>
 
             <button type="submit" class="btn <%=update?'btn-primary':'btn-success' %>">
-                <%=update?'Update':'Add New Contractor' %></button>
-            <a href="/contractor/index" class="btn btn-dark">Cancel</a>
-        </div>
+        <%=update?'Update':'Add New Contractor' %></button>
+        <a href="/contractor/index" class="btn btn-dark">Cancel</a>
+    </div>
 
-        </form>
+    </form>
     </div>
     </div>
 

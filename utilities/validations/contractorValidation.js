@@ -7,6 +7,7 @@ module.exports.contractorValidateSchema = Joi.object({
   conPhone: Joi.string().optional(),
   unitPriceRate: Joi.number().min(1).required().label("unit Rate"),
   conAddress: Joi.string().required().label("Address"),
+  isActive: Joi.optional(),
 });
 
 module.exports.isContractorValid = asyncWrap(async (req, res, next) => {
