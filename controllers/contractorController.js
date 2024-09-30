@@ -5,7 +5,7 @@ const Job = require("../models/Jobs");
 module.exports.index = async (req, res, next) => {
   const { _id, companyId } = req.user;
   const contractors = await Contractor.find({ username: _id, companyId });
-  return res.render("contractor/index", { contractors });
+  return res.render("contractor/index", { contractors, row: 0 });
 };
 
 module.exports.create = async (req, res, next) => {
@@ -74,8 +74,7 @@ module.exports.Cdelete = async (req, res, next) => {
   const isJobExist = await Job.findOne({
     "contractorDetails.contractor": C_id,
   });
-  console.log(isJobExist, C_id);
-  return false;
+
   if (!isJobExist) {
     await Contractor.findOneAndDelete({ _id: C_id, username: _id });
     req.flash("error", "contractor removed successfully");

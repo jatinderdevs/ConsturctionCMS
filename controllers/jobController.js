@@ -206,7 +206,7 @@ module.exports.genrateInvoice = async (req, res, next) => {
     totalInvoice,
     subtotal,
   };
-
+  const invoiceName = `Invoice_${job.jobNumber}.pdf`;
   const htmlToPDF = new HTMLToPDF(InvoiceTemplate(InvoiceData));
 
   htmlToPDF
@@ -214,7 +214,10 @@ module.exports.genrateInvoice = async (req, res, next) => {
     .then((buffer) => {
       // do something with the PDF file buffer
       res.setHeader("Content-Type", "application/pdf");
-      res.setHeader("Content-Disposition", 'inline; filename="invoice.pdf"');
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename=${invoiceName}`
+      );
 
       // Send the buffer as the response
       res.send(buffer);
@@ -257,12 +260,20 @@ const InvoiceTemplate = (InvoiceData) => {
     p{
     font-size:18px;
     }
+    body{
+    padding:0 10px;
+ 
+    }
+   
     </style>
 </head>
 
 <body>
    
     <main>
+    
+
+    <section class="py-4"></section>
     <section>
         <div class="containedr">
         <div class="row">
@@ -312,7 +323,7 @@ const InvoiceTemplate = (InvoiceData) => {
  
   <div class="col-md-4">
     <h4>To</h4>
-   <h3>${contractor.conName}</h3>
+   <h3 class="text-capitalize">${contractor.conName}</h3>
     <p>
     ${contractor.conAddress}
     </p>
@@ -338,7 +349,7 @@ const InvoiceTemplate = (InvoiceData) => {
   </div>
 </div>
     <hr/>
-    <table class="table table-bordered text-capitalize mt-4">
+    <table class="table table-bordered text-capitalize my-4 ">
     <thead class="alert alert-primary ">
         <tr class="">
             <th>Descripation</th>
@@ -438,22 +449,14 @@ const InvoiceTemplate = (InvoiceData) => {
   </div>
 </div>
 </section>
-
-<script>
-    var element = document.getElementById('test');
-    var options = {
-        filename: 'test.pdf'
-    };
-    domToPdf(element, options, function (pdf) {
-        console.log('done');
-    });
-</script>
+<section class="py-4"></section>
 
             </div>
-            </main>
+           
             <footer class="text-center bg-light">
-                <p>&copy; All rights are reserved</p>
+                <p>Powered by Construction Management System (CMS)</p>
             </footer>
+             </main>
 </body>
 
 

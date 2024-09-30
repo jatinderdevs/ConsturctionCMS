@@ -36,13 +36,13 @@
                 <div>
                     <a href="/contractor/edit/<%=c._id%>" class="btn btn-primary btn-sm">Edit</a>
                     <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal"
-                        data-target="#exampleModal">
+                        data-target="#id<%=(row+=1)%>">
                         Delete
                     </button>
                 </div>
 
                 <!-- modal pop up for delete button -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                <div class="modal fade" id="id<%=(row)%>" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -55,6 +55,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
+
                                 <p>WARNING! deleting Contractor Will remove all the job details of realted
                                     to this
                                     Contractor
