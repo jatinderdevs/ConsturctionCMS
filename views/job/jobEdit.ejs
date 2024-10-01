@@ -68,8 +68,14 @@
                 Please Provide a job Size
             </div>
         </div>
-        <div class="col-md-6 ">
-            <!-- <table class="table table-bordered table-responsive table-info ">
+        <div class="col-md-12 mb-6">
+            <label for="">Comment </label>
+            <input type="text" placeholder="Any details related to this job add here" class="form-control"
+                value="<%=jobData.comment%>" id="Comment" name="Comment">
+        </div>
+    </div>
+    <div class="col-md-6 ">
+        <!-- <table class="table table-bordered table-responsive table-info ">
                 <tr>
                     <td><input type="checkbox" name="" id=""></td>
                     <td>sdfsdfsdf</td>
@@ -78,22 +84,22 @@
 
                 </tr>
             </table> -->
-            <div class="p-3 ">
-                <span id="emptyAlert" class="blockquote-footer alert-info">There is no additional Charges for this
-                    job</span>
-                <%for(let e of jobData.additionalCharges){%>
+        <div class="p-3 ">
+            <span id="emptyAlert" class="blockquote-footer alert-info">There is no additional Charges for this
+                job</span>
+            <%for(let e of jobData.additionalCharges){%>
 
-                <div class="form-check alert alert-info countExtra  d-flex justify-content-between">
+            <div class="form-check alert alert-info countExtra  d-flex justify-content-between">
 
-                    <div>
-                        <input checked style="opacity: 0;" class="form-check-input" type="checkbox" value="<%=e._id%>"
-                            id="charges[]" name="charges">
-                    </div>
-                    <strong class="text-capitalize"> <%=e.chargeInfo%></strong>
-                    <span><%=e.charges.toLocaleString("en-US", { style: "currency", currency: "USD" })%></span>
-                    <button type="button" onclick="removeItem(this)" class="btn btn-danger btnDelete btn-sm">x</button>
+                <div>
+                    <input checked style="opacity: 0;" class="form-check-input" type="checkbox" value="<%=e._id%>"
+                        id="charges[]" name="charges">
                 </div>
-                <%}%>
+                <strong class="text-capitalize"> <%=e.chargeInfo%></strong>
+                <span><%=e.charges.toLocaleString("en-US", { style: "currency", currency: "USD" })%></span>
+                <button type="button" onclick="removeItem(this)" class="btn btn-danger btnDelete btn-sm">x</button>
+            </div>
+            <%}%>
             </div>
            
            
@@ -104,8 +110,8 @@
     <hr>
     <button class="btn btn-primary" type="submit">Update Changes</button>
     <a href="/job/view/<%=jobData._id%>/<%=currentUser.companyId%>" class="btn btn-dark">Cancel</a>
-                </form>
-            </div>
+            </form>
+        </div>
 
 
 

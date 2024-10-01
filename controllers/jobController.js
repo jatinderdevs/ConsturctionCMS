@@ -15,7 +15,12 @@ module.exports.index = async (req, res, next) => {
 
 module.exports.create = async (req, res, next) => {
   const { _id, companyId } = req.user;
-  const contractors = await Contractor.find({ username: _id, companyId });
+  const contractors = await Contractor.find({
+    username: _id,
+    companyId,
+    isActive: true,
+  });
+  // if there is no contractor or all the contractor deactive redirect to contract page
   res.render("job/create", {
     formData: {},
     validateError: {},
@@ -107,8 +112,15 @@ module.exports.edit = async (req, res, next) => {
 
 module.exports.update = async (req, res, next) => {
   const { value, error } = jobValidation.validate(req.body);
-  const { charges, jobNumber, jobDate, location, jobSize, contractorId } =
-    req.body;
+  const {
+    charges,
+    jobNumber,
+    jobDate,
+    location,
+    jobSize,
+    contractorId,
+    Comment,
+  } = req.body;
   const { companyId } = res.locals.currentUser;
   const { id } = req.params;
   const { _id } = req.user;
@@ -147,6 +159,7 @@ module.exports.update = async (req, res, next) => {
   jobData.location = location;
   jobData.jobSize = jobSize;
   jobData.additionalCharges = updatedCharges;
+  jobData.comment = Comment;
 
   await jobData.save();
   req.flash("success", "Job has been updated successfully");
@@ -278,9 +291,9 @@ const InvoiceTemplate = (InvoiceData) => {
         <div class="containedr">
         <div class="row">
 
-  <div class="col-md-8">
+  <div class="col-md-6">
   </div>
-  <div class="col-md-4 text-right">
+  <div class="col-md-6 text-right">
    <h1>${companyName}</h1>
    <p>
    
