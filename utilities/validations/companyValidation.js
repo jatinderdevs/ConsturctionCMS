@@ -21,7 +21,7 @@ const companyValidateSchema = Joi.object({
   contactNumber: Joi.string().required(),
   email: Joi.string().required(),
   address: adresSchema,
-  bank: bankSchema,
+  bankDetails: bankSchema,
 }).unknown(true);
 
 module.exports.isCompanyDataValid = asyncWrap(async (req, res, next) => {
@@ -29,6 +29,15 @@ module.exports.isCompanyDataValid = asyncWrap(async (req, res, next) => {
 
   if (error) {
     const validateError = error.details[0].message;
+    //check the url if request come from edit then page reneder accordingly
+    const isEditValidation = req.originalUrl === "/company/edit" ? true : false;
+
+    if (isEditValidation) {
+      return res.render("company/companyEdit.ejs", {
+        formData: value,
+        validateError,
+      });
+    }
     return res.render("company/create.ejs", {
       formData: value,
       validateError,

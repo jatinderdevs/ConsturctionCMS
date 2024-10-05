@@ -12,14 +12,15 @@ module.exports.index = async (req, res, next) => {
 };
 
 module.exports.createUpdate = async (req, res, next) => {
-  const { companyName, contactNumber, email, logo, address, bank } = req.body;
+  const { companyName, contactNumber, email, logo, address, bankDetails } =
+    req.body;
   const addCompany = new Company({
     companyName,
     logo,
     contactNumber,
     email,
     address: address,
-    bankDetails: bank,
+    bankDetails,
     username: req.user,
   });
   const company = await addCompany.save();
@@ -34,4 +35,28 @@ module.exports.companyProfile = async (req, res, next) => {
   const { companyId } = req.user;
   const companyData = await Company.findOne({ _id: companyId });
   return res.render("company/companyprofile", { companyData });
+};
+
+//edit company profile details
+module.exports.edit = async (req, res, next) => {
+  const { _id, companyId } = req.user;
+
+  const company = await Company.findOne({ _id: companyId, username: _id });
+  return res.render("company/companyEdit", {
+    validateError: {},
+    formData: company,
+  });
+};
+
+module.exports.update = async (req, res, next) => {
+  const { _id, companyId } = req.user;
+  const isUpdate = await Company.updateOne(
+    { _id: companyId, username: _id },
+    { ...req.body }
+  );
+  if (!isUpdate) {
+    return next();
+  }
+  req.flash("success", "Company Details has been updated successfully");
+  return res.redirect("/company/profile");
 };

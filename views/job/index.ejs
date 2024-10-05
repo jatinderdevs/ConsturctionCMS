@@ -3,6 +3,13 @@
 <section>
     <h1 class="text-capitalize alert alert-info">Jobs</h1>
     <hr>
+    <%if(jobs.length<=0){%>
+    <h6 class="alert alert-warning block text-center">There no job details <a href="/job/create"
+            class="btn btn-sm btn-dark">Start
+            to add
+            job</a>
+    </h6>
+    <%}else{%>
     <table class="table table-bordered table-responsive-md  text-capitalize">
         <thead class="thead-dark">
             <tr>
@@ -51,4 +58,5 @@
             <%}%>
         </tbody>
     </table>
+    <%}%>
 </section>

@@ -1,5 +1,4 @@
-<% layout('../includes/layout.ejs') %>
-
+<% layout('../includes/companyLayout.ejs') %>
 <style>
     .form-group>div>div {
         margin-bottom: 15px;
@@ -10,9 +9,7 @@
         margin: 0 auto;
     }
 
-    .step-form .step {
-        display: none;
-    }
+
 
     .step-form .step.active {
         display: block;
@@ -26,17 +23,14 @@
         width: 0;
     }
 </style>
-<section>
+<sectdion>
+    <h4 class="alert alert-success">Edit Company Details</h4>
+
     <div class="container">
-        <h1>welcome to company create page</h1>
 
         <div class="card p-4 step-form">
-            <div class="progress">
-                <div class="progress-bar bg-primary" role="progressbar" style="width: 33%;" aria-valuenow="33"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            <br>
-            <form id="stepForm" method="post">
+
+            <form action="" method="post">
                 <%if(validateError && validateError.length){%>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong> <%=validateError %></strong>
@@ -47,7 +41,7 @@
                 <%}%>
                 <!-- Step 1 -->
                 <div class="step active">
-                    <h3>Company's basic Info</h3>
+                    <h6 class="alert alert-warning">Company's basic Info</h6>
                     <hr>
                     <div class="form-group">
                         <div class="row">
@@ -73,12 +67,12 @@
 
 
     </div>
-    <button type="button" class="btn btn-primary" onclick="nextStep()">Next</button>
+
     </div>
 
     <!-- Step 2 -->
     <div class="step">
-        <h3>Address info</h3>
+        <h6 class="alert alert-warning">Address info</h6>
         <div class="form-group" novalidation>
             <div class="row">
                 <div class="col-md-6">
@@ -102,13 +96,12 @@
             </div>
 
         </div>
-        <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
-        <button type="button" class="btn btn-primary" onclick="nextStep()">Next</button>
+
     </div>
 
-    <!-- Step 3 -->
+    <!-- Step 6 -->
     <div class="step">
-        <h3>Compnay's Account Details</h3>
+        <h6 class="alert alert-warning">Compnay's Account Details</h6>
         <div class="form-group">
             <div class="row">
                 <div class="col-md-6">
@@ -134,44 +127,12 @@
             </div>
 
         </div>
-        <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="" class="btn btn-dark"> Cancel</a>
+
     </div>
     </form>
     </div>
 
     </div>
-</section>
-
-<script>
-    let currentStep = 0;
-
-    function showStep(stepIndex) {
-        const steps = document.querySelectorAll('.step-form .step');
-        const progressBar = document.querySelector('.progress-bar');
-
-        steps.forEach((step, index) => {
-            step.classList.toggle('active', index === stepIndex);
-        });
-
-        const percent = ((stepIndex + 1) / steps.length) * 100;
-        progressBar.style.width = `${percent}%`;
-    }
-
-    function nextStep() {
-        const steps = document.querySelectorAll('.step-form .step');
-        if (currentStep < steps.length - 1) {
-            currentStep++;
-            showStep(currentStep);
-        }
-    }
-
-    function prevStep() {
-        if (currentStep > 0) {
-            currentStep--;
-            showStep(currentStep);
-        }
-    }
-
-    showStep(currentStep);
-</script>
+    </section>

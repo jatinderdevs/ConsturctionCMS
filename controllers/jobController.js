@@ -20,7 +20,16 @@ module.exports.create = async (req, res, next) => {
     companyId,
     isActive: true,
   });
+
   // if there is no contractor or all the contractor deactive redirect to contract page
+  if (contractors.length === 0) {
+    req.flash(
+      "error",
+      "Please add or activate at least One contractor to add new job"
+    );
+    return res.redirect("/contractor/index");
+  }
+
   res.render("job/create", {
     formData: {},
     validateError: {},
@@ -52,9 +61,9 @@ module.exports.createPost = async (req, res, next) => {
       IsPaid: false,
     },
   });
-  await newJob.save();
+  const newjob = await newJob.save();
   req.flash("success", "Job has been added successfully");
-  return res.redirect("/admin/");
+  return res.redirect(`/job/view/${newjob._id}/${newjob.companyId}`);
 };
 
 module.exports.job = async (req, res, next) => {
@@ -181,6 +190,19 @@ module.exports.additionalCharges = async (req, res, next) => {
   await job.save();
   req.flash("success", "Additional Charges has been added successfully");
   res.redirect(`/job/view/${jobId}/${companyId}`);
+};
+
+//remove the job details
+module.exports.deleteJob = async (req, res, next) => {
+  const { jobId } = req.body;
+  const { _id, companyId } = req.user;
+
+  const job = await Job.deleteOne({ _id: jobId, username: _id, companyId });
+  if (!job) {
+    return next("Bad request sent to the server");
+  }
+  req.flash("success", "Job details removed successfully");
+  return res.redirect("/job/index");
 };
 
 module.exports.genrateInvoice = async (req, res, next) => {

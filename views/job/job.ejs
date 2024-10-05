@@ -2,9 +2,10 @@
 
 <section>
     <div class="actionbtn flex py-3">
-        <form action="" method="">
+        <form action="/job/delete/<%=job._id%>" method="post">
             <input type="hidden" name="jobId" value="<%=job._id%>">
-            <button class="btn btn-danger">Delete</button>
+            <button onclick="return confirm('Are you sure to delete job details parmanently?')"
+                class="btn btn-danger">Delete</button>
         </form>
 
 

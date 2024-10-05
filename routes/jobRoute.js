@@ -11,6 +11,7 @@ const {
   edit,
   update,
   genrateInvoice,
+  deleteJob,
 } = require("../controllers/jobController");
 
 const { isJobDataValid } = require("../utilities/validations/jobValidate");
@@ -27,6 +28,8 @@ router.route("/edit/:id").get(asyncWrap(edit)).post(asyncWrap(update));
 router.post("/charges/", asyncWrap(additionalCharges));
 
 router.get("/view/:id/:company", asyncWrap(job));
+
+router.post("/delete/:id", asyncWrap(deleteJob));
 
 router.get("/genrate/:jobId", asyncWrap(genrateInvoice));
 
