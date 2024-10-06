@@ -253,7 +253,8 @@ module.exports.genrateInvoice = async (req, res, next) => {
         "Content-Disposition",
         `attachment; filename=${invoiceName}`
       );
-
+      // attachment
+      //inline
       // Send the buffer as the response
       res.send(buffer);
     })
@@ -295,18 +296,22 @@ const InvoiceTemplate = (InvoiceData) => {
     p{
     font-size:18px;
     }
-    body{
+    main{
     padding:0 10px;
- 
+  border:1px solid #dfdfdf;
+  margin:0 5px;
     }
    
     </style>
 </head>
 
 <body>
-   
+    <div  class="bg-warning p-2 text-center">
+    <h2>INVOICE</h2>
+    </div>
     <main>
     
+   
 
     <section class="py-4"></section>
     <section>
@@ -337,7 +342,7 @@ const InvoiceTemplate = (InvoiceData) => {
   <div class="col-md-7">
   </div>
   <div class="col-md-5 text-right">
-   <h2>INVOICE</h2>
+   <h3>Invoice Details</h3>
     <p>
    Invoice Date: <strong>${createdAt.toLocaleDateString(undefined, {
      weekday: "long",
@@ -371,7 +376,7 @@ const InvoiceTemplate = (InvoiceData) => {
  
   <div class="col-md-5">
   <p>Job Location:<strong>${location}</strong></p>
-  <p>Job Number:<strong>${jobNumber}</strong></p>
+  <p>Job Number:<strong class="">${jobNumber}</strong></p>
   <p>Job Date:<strong>${jobDate.toLocaleDateString(undefined, {
     weekday: "long",
     year: "numeric",
@@ -385,7 +390,7 @@ const InvoiceTemplate = (InvoiceData) => {
 </div>
     <hr/>
     <table class="table table-bordered text-capitalize my-4 ">
-    <thead class="alert alert-primary ">
+    <thead  class="alert alert-primary ">
         <tr class="">
             <th>Descripation</th>
             <th>area (Sqm)</th>
@@ -467,6 +472,7 @@ const InvoiceTemplate = (InvoiceData) => {
             </tbody>
             </table>
         </div>
+        <br/>
         <strong class="h5">Please pay the above amount to:</strong>
         <hr/>
         <div class="row">
@@ -487,11 +493,11 @@ const InvoiceTemplate = (InvoiceData) => {
 <section class="py-4"></section>
 
             </div>
-           
-            <footer class="text-center bg-light">
-                <p>Powered by Construction Management System (CMS)</p>
-            </footer>
              </main>
+            <footer class="text-center bg-warning p-2">
+                <p class="m-0">Powered by Construction Management System (CMS)</p>
+            </footer>
+           
 </body>
 
 
