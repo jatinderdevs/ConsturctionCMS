@@ -12,6 +12,7 @@ const {
   update,
   genrateInvoice,
   deleteJob,
+  invoicePaid,
 } = require("../controllers/jobController");
 
 const { isJobDataValid } = require("../utilities/validations/jobValidate");
@@ -32,5 +33,7 @@ router.get("/view/:id/:company", asyncWrap(job));
 router.post("/delete/:id", asyncWrap(deleteJob));
 
 router.get("/genrate/:jobId", asyncWrap(genrateInvoice));
+
+router.post("/invoicestatus/:jobId", asyncWrap(invoicePaid));
 
 module.exports = router;

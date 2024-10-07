@@ -503,3 +503,18 @@ const InvoiceTemplate = (InvoiceData) => {
 
 </html>`;
 };
+
+//get payment done and job completed
+module.exports.invoicePaid = async (req, res, next) => {
+  const { jobId } = req.body;
+  const { _id, companyId } = req.user;
+
+  const job = await Job.findOne({ _id: jobId, username: _id, companyId });
+
+  //toggle the invoice status fn
+  job.invoice.IsPaid = job.invoice.IsPaid ? false : true;
+
+  await job.save();
+  req.flash("success", "job payment status has been updated");
+  return res.redirect("/job/index");
+};
