@@ -4,23 +4,26 @@
     <div class="actionbtn flex py-3">
         <form action="/job/delete/<%=job._id%>" method="post">
             <input type="hidden" name="jobId" value="<%=job._id%>">
-            <button onclick="return confirm('Are you sure to delete job details parmanently?')"
-                class="btn btn-danger">Delete</button>
+            <button onclick="return confirm('Are you sure to delete job details parmanently?')" class="btn btn-danger">
+                <img src="/icons/trash.png" alt=""> Delete</button>
         </form>
 
 
         <button type="button" class="btn  btn-primary" data-toggle="modal" data-target="#exampleModal">
-            Add additional Charges
+            <img src="/icons/add.png" alt=""> Additional Charges
         </button>
 
-        <a href="/job/edit/<%=job._id%>" class="btn btn-info shadow"> Edit Details</a>
+        <a href="/job/edit/<%=job._id%>" class="btn btn-info shadow">
+            <img src="/icons/edit.png" alt=""> Edit Details</a>
 
-        <a href="/job/genrate/<%=job._id%>" class="btn  btn-success shadow">Download Invoice</a>
+        <a href="/job/genrate/<%=job._id%>" class="btn  btn-success shadow">
+            <img src="/icons/download.png" alt="">
+            Download Invoice</a>
 
         <form action="/job/invoicestatus/<%=job._id%>" method="post">
             <input type="hidden" name="jobId" value="<%=job._id%>">
             <%if(!job.invoice.IsPaid){%>
-            <button type="submit" class="btn shadow btn-warning"> Is Invoice
+            <button type="submit" class="btn shadow btn-warning"> <img src="/icons/paid.png" alt=""> Is Invoice
                 Paid</a>
                 <%}else{%>
                 <button type="submit" data-toggle="tooltip" data-placement="top"

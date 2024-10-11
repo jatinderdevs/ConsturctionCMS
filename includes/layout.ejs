@@ -43,9 +43,13 @@
                         <span> Hi! <i class="text-capitalize"> <%= currentUser ?currentUser.fullname:''%></i></span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/user/profile">Profile Settings</a>
-                        <a class="dropdown-item" href="#">Account Settings</a>
-                        <a href="/user/logout" class="btn btn-sm btn-warning dropdown-item">Log Out</a>
+                        <a class="dropdown-item py-3" href="/user/profile"> <img src="/icons/profile.png" alt="">
+                            Profile
+                            Settings</a>
+                        <a class="dropdown-item py-3 " href="#"><img src="/icons/account.png" alt=""> Account
+                            Settings</a>
+                        <a href="/user/logout" class=" py-3 btn btn-sm btn-warning dropdown-item"><img
+                                src="/icons/logout.png" alt=""> Log Out</a>
                     </div>
                 </div>
 
