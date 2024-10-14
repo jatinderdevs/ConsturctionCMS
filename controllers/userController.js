@@ -3,14 +3,11 @@ const User = require("../models/user");
 exports.signin = (req, res, next) => {
   let redirectURL;
   if (req.user) {
-    if (req.user.role === "superadmin") {
-      redirectURL = "/dashboard/";
-    } else if (req.user.role === "admin") {
-      redirectURL = "/admin/";
-    }
-    return res.redirect(redirectURL);
+    //check user role accordingly show dashboard
+    redirectURL = req.user.role === "superadmin" ? "/dashboard/" : "/admin/";
+    res.redirect(redirectURL);
   } else {
-    return res.render("user/signin.ejs");
+    res.render("user/signin.ejs");
   }
 };
 

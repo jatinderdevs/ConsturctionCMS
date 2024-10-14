@@ -1,8 +1,12 @@
 {
+  "engines": {
+    "node":"16.15.1"
+  },
   "name": "backend",
   "version": "1.0.0",
   "description": "This app for the construction companies to manage their job data and their employee details and also generate invoices and track down ",
   "main": "index.js",
+
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js"

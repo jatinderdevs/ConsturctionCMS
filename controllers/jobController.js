@@ -249,17 +249,15 @@ module.exports.genrateInvoice = async (req, res, next) => {
     .then((buffer) => {
       // do something with the PDF file buffer
       res.setHeader("Content-Type", "application/pdf");
-      res.setHeader(
-        "Content-Disposition",
-        `attachment; filename=${invoiceName}`
-      );
+      res.setHeader("Content-Disposition", `inline; filename=${invoiceName}`);
       // attachment
       //inline
       // Send the buffer as the response
-      res.send(buffer);
+      return res.send(buffer);
     })
     .catch((err) => {
       // do something on error
+      next();
     });
 };
 
