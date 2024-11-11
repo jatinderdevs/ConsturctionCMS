@@ -38,9 +38,12 @@ app.engine("ejs", ejsMate);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//database link
+const DB = process.env.Local_URI;
+
 //session stroe
 const store = MongoStore.create({
-  mongoUrl: process.env.DB_URI,
+  mongoUrl: DB,
   crypto: {
     secret: process.env.SESSION_SECERT,
   },
@@ -71,6 +74,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.static(path.join(__dirname, "img")));
 
+app.use("/docs", express.static(path.join(__dirname, "docs")));
+
 //middleware for the flash messages
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
@@ -97,7 +102,7 @@ app.use("*", (req, res, next) => {
 });
 
 mongoose
-  .connect(process.env.DB_URI)
+  .connect(DB)
   .then(() => {
     app.listen(process.env.PORT || 3002, () => {
       console.log("data has been connected");

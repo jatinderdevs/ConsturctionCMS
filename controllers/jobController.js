@@ -2,11 +2,9 @@ const Company = require("../models/company");
 const Contractor = require("../models/contractor");
 const Job = require("../models/Jobs");
 const { jobValidation } = require("../utilities/validations/jobValidate");
-const HTMLToPDF = require("convert-html-to-pdf").default;
+
 const PDFDocument = require("pdfkit");
-
-const axios = require("axios");
-
+const fs = require("fs");
 module.exports.index = async (req, res, next) => {
   const rows = 1;
   const { companyId } = req.user;
@@ -242,24 +240,237 @@ module.exports.genrateInvoice = async (req, res, next) => {
     totalInvoice,
     subtotal,
   };
-  const invoiceName = `Invoice_${job.jobNumber}.pdf`;
-  const htmlToPDF = new HTMLToPDF(InvoiceTemplate(InvoiceData));
+  return res.render("invoices/invoice", { InvoiceData });
 
-  htmlToPDF
-    .convert()
-    .then((buffer) => {
-      // do something with the PDF file buffer
-      res.setHeader("Content-Type", "application/pdf");
-      res.setHeader("Content-Disposition", `inline; filename=${invoiceName}`);
-      // attachment
-      //inline
-      // Send the buffer as the response
-      return res.send(buffer);
-    })
-    .catch((err) => {
-      // do something on error
-      next();
+  function createInvoice(data, path) {
+    const doc = new PDFDocument();
+
+    // Helper function for table rows
+    function addTableRow(y, description, area, unitPrice, totalPrice) {
+      doc
+        .fontSize(10)
+        .text(description, 50, y, { width: 180 })
+        .text(area || "-", 240, y, { width: 60, align: "right" })
+        .text(`$${unitPrice.toFixed(2)}`, 320, y, { width: 80, align: "right" })
+        .text(`$${totalPrice.toFixed(2)}`, 420, y, {
+          width: 80,
+          align: "right",
+        });
+    }
+
+    // Header Section
+    doc
+      .fontSize(18)
+      .text("EDIFIC DEVELOPERS PTY LTD", { align: "center" })
+      .moveDown()
+      .fontSize(10)
+      .text("Address: 1 Phoenix Cct, Brookfield, VIC, 3338", {
+        align: "center",
+      })
+      .text("ABN: 40442831848", { align: "center" })
+      .moveDown()
+      .text(
+        "_____________________________________________________________________________________",
+        { align: "center" }
+      )
+      .moveDown(1.5);
+
+    // Invoice Title
+    doc.fontSize(20).text("INVOICE", { align: "center" }).moveDown();
+
+    // Invoice and Client Details
+    doc
+      .fontSize(12)
+      .text(`Invoice Date: ${data.invoiceDate}`, 50)
+      .text(`Invoice No: ${data.invoiceNo}`, 450)
+      .moveDown()
+      .text("To:", 50)
+      .text(`${data.clientName}`, 50)
+      .text(`${data.clientAddress}`, 50)
+      .moveDown()
+      .text(`Job Location: ${data.jobLocation}`, 50)
+      .text(`Job Number: ${data.jobNumber}`, 50)
+      .text(`Job Date: ${data.jobDate}`, 50)
+      .moveDown();
+
+    // Draw table headers with centered text
+    function drawTableHeaders(y) {
+      doc
+        .fontSize(12)
+        .text("Description", 50, y, { width: columnWidths[0], align: "center" })
+        .text("Area (Sqm)", 50 + columnWidths[0], y, {
+          width: columnWidths[1],
+          align: "center",
+        })
+        .text("Unit Price", 50 + columnWidths[0] + columnWidths[1], y, {
+          width: columnWidths[2],
+          align: "center",
+        })
+        .text(
+          "Total Price AUD",
+          50 + columnWidths[0] + columnWidths[1] + columnWidths[2],
+          y,
+          { width: columnWidths[3], align: "center" }
+        );
+
+      // Draw header borders
+      drawRowBorders(y, columnWidths.reduce((a, b) => a + b, 0) + 50);
+    }
+    const tableTop = 400; // Start position of the table
+    const rowHeight = 30; // Height of each row
+    const columnWidths = [180, 80, 100, 100];
+    // Draw each row of the table
+    function drawTableRow(y, item) {
+      doc
+        .fontSize(10)
+        .text(item.description, 50, y, {
+          width: columnWidths[0],
+          align: "center",
+        })
+        .text(item.area || "-", 50 + columnWidths[0], y, {
+          width: columnWidths[1],
+          align: "center",
+        })
+        .text(
+          `$${item.unitPrice.toFixed(2)}`,
+          50 + columnWidths[0] + columnWidths[1],
+          y,
+          { width: columnWidths[2], align: "center" }
+        )
+        .text(
+          `$${item.totalPrice.toFixed(2)}`,
+          50 + columnWidths[0] + columnWidths[1] + columnWidths[2],
+          y,
+          { width: columnWidths[3], align: "center" }
+        );
+
+      // Draw row borders
+      drawRowBorders(y, columnWidths.reduce((a, b) => a + b, 0) + 50);
+    }
+
+    // Draw row borders
+    function drawRowBorders(y, totalWidth) {
+      doc
+        .moveTo(50, y)
+        .lineTo(50 + totalWidth, y)
+        .stroke();
+
+      doc
+        .moveTo(50, y)
+        .lineTo(50, y + rowHeight)
+        .stroke();
+
+      let xPos = 50;
+      for (let width of columnWidths) {
+        xPos += width;
+        doc
+          .moveTo(xPos, y)
+          .lineTo(xPos, y + rowHeight)
+          .stroke();
+      }
+
+      doc
+        .moveTo(50, y + rowHeight)
+        .lineTo(50 + totalWidth, y + rowHeight)
+        .stroke();
+    }
+    drawTableHeaders(tableTop);
+
+    let rowY = tableTop + rowHeight;
+    data.items.forEach((item) => {
+      drawTableRow(rowY, item);
+      rowY += rowHeight;
     });
+
+    // Totals Section
+    doc
+      .moveDown()
+      .text("", { align: "left" })
+      .moveDown()
+      .fontSize(12)
+      .text(`Subtotal: $${data.subtotal.toFixed(2)}`, 420, doc.y, {
+        align: "right",
+      })
+      .text(`GST 10.00%: $${data.gst.toFixed(2)}`, 420, doc.y + 15, {
+        align: "right",
+      })
+      .fontSize(14)
+      .text(`TOTAL: $${data.total.toFixed(2)}`, 420, doc.y + 30, {
+        align: "right",
+      });
+
+    // Payment Details
+    doc
+      .moveDown(2)
+      .fontSize(12)
+      .text("Please pay the above amount to:", { align: "left" })
+      .text(`Account name: ${data.accountName}`, { align: "left" })
+      .text(`BSB: ${data.bsb}`, { align: "left" })
+      .text(`Acc. No: ${data.accountNumber}`, { align: "left" });
+
+    // Finalize and save PDF
+    doc.end();
+    doc.pipe(fs.createWriteStream(path));
+  }
+
+  // Sample data
+  function generateTableRow(
+    doc,
+    y,
+    desc,
+    area,
+    unitPrice,
+    totalPrice,
+    isHeader = false
+  ) {
+    doc
+      .fontSize(10)
+      .font(isHeader ? "Helvetica-Bold" : "Helvetica")
+      .text(desc, 50, y, { width: 150 })
+      .text(area, 200, y, { width: 80, align: "right" })
+      .text(unitPrice, 300, y, { width: 100, align: "right" })
+      .text(totalPrice, 400, y, { width: 100, align: "right" });
+  }
+
+  // Sample data to test
+  const invoiceData = {
+    invoiceDate: "August 29th 2024",
+    invoiceNo: "82",
+    clientName: "CORMACK CONCRETING",
+    clientAddress: "9 Boneyards Ave, Torquay VIC 3228",
+    jobLocation: "Lot 5112, Rush Carescent, Manor Lakes, VIC, 3024",
+    jobNumber: "215861",
+    jobDate: "20th August 2024",
+    items: [
+      {
+        description: "House Slabs",
+        area: "268.34",
+        unitPrice: 20.0,
+        totalPrice: 5366.8,
+      },
+      {
+        description: "High Bread Job (extra Labor)",
+        area: "",
+        unitPrice: 600.0,
+        totalPrice: 600.0,
+      },
+      {
+        description: "Able Flex (Legging)",
+        area: "",
+        unitPrice: 80.0,
+        totalPrice: 80.0,
+      },
+    ],
+    subtotal: 6046.8,
+    gst: 604.68,
+    total: 6651.48,
+    accountName: "EDIFICE DEVELOPERS PTY LTD",
+    bsb: "063994",
+    accountNumber: "10297078",
+  };
+
+  // Generate PDF
+  // createInvoice(invoiceData, "invoice.pdf");
 };
 
 const InvoiceTemplate = (InvoiceData) => {
@@ -270,237 +481,6 @@ const InvoiceTemplate = (InvoiceData) => {
   const { street, suburb, postCode } = address;
   const { ABN_number } = bankDetails;
   var add_charges = "";
-  for (let charges of InvoiceData.job.additionalCharges) {
-    add_charges += `<tr>
-        <td></td>
-        <td></td>
-        <td><strong>${charges.chargeInfo}</strong></td>
-        <td>${charges.charges.toLocaleString("en-US", {
-          style: "currency",
-          currency: "USD",
-        })}</td>
-    </tr>`;
-  }
-
-  return `<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <style>
-    p{
-    font-size:18px;
-    }
-    main{
-    padding:0 10px;
-  border:1px solid #dfdfdf;
-  margin:0 5px;
-    }
-   
-    </style>
-</head>
-
-<body>
-    <div  class="bg-warning p-2 text-center">
-    <h2>INVOICE</h2>
-    </div>
-    <main>
-    
-   
-
-    <section class="py-4"></section>
-    <section>
-        <div class="containedr">
-        <div class="row">
-
-  <div class="col-md-6">
-  </div>
-  <div class="col-md-6 text-right">
-   <h1>${companyName}</h1>
-   <p>
-   
-    ${street},${suburb},${postCode}
-  
-  
-   </p>
-     
-     <p>ABN:<strong> ${ABN_number}</strong></p>
-  </div>
-
-</div>
-            
-
-     <br/>
-
-<div class="row">
-
-  <div class="col-md-7">
-  </div>
-  <div class="col-md-5 text-right">
-   <h3>Invoice Details</h3>
-    <p>
-   Invoice Date: <strong>${createdAt.toLocaleDateString(undefined, {
-     weekday: "long",
-     year: "numeric",
-     month: "long",
-     day: "numeric",
-   })}</strong>
-    </p>
-     <p>
-   Invoice Number: <strong>${invoice.invoiceNumber}</strong>
-    </p>
-  </div>
-
-</div>
-<hr/>
-   <div class="row">
-
- 
-  <div class="col-md-4">
-    <h4>To</h4>
-   <h3 class="text-capitalize">${contractor.conName}</h3>
-    <p>
-    ${contractor.conAddress}
-    </p>
-  </div>
- <div class="col-md-8">
-  </div>
-</div>
- <div class="row">
-
- 
-  <div class="col-md-5">
-  <p>Job Location:<strong>${location}</strong></p>
-  <p>Job Number:<strong class="">${jobNumber}</strong></p>
-  <p>Job Date:<strong>${jobDate.toLocaleDateString(undefined, {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })}</strong></p>
-
-  </div>
- <div class="col-md-7">
-  </div>
-</div>
-    <hr/>
-    <table class="table table-bordered text-capitalize my-4 ">
-    <thead  class="alert alert-primary ">
-        <tr class="">
-            <th>Descripation</th>
-            <th>area (Sqm)</th>
-            <th>unit price</th>
-            <th>total price AUD</th>
-
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>houseslable</td>
-            <td>${jobSize}</td>
-            <td>${unitPriceRate.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}
-            </td>
-            <td>${InvoiceData.jobCharges.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}</td>
-
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-           ${add_charges}
-              
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr class="alert alert-dark">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td><strong>Subtotal:</strong></td>
-                <td>${InvoiceData.subtotal.toLocaleString("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                })}</td>
-
-            </tr>
-            <tr>
-                <td></td>
-                <td><strong>GST</strong></td>
-                <td><strong>10%</strong></td>
-
-                <td>${InvoiceData.GST.toLocaleString("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                })}</td>
-
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td><strong>Grand Total</strong></td>
-
-                <td><strong> ${InvoiceData.totalInvoice.toLocaleString(
-                  "en-US",
-                  {
-                    style: "currency",
-                    currency: "USD",
-                  }
-                )}</strong></td>
-
-            </tr>
-            </tbody>
-            </table>
-        </div>
-        <br/>
-        <strong class="h5">Please pay the above amount to:</strong>
-        <hr/>
-        <div class="row">
-
- 
-  <div class="col-md-4">
-    
-   <h3>${bankDetails.bankName}</h3>
-
-    <p class="m-0"> BSB: <strong>${bankDetails.BSB}</strong>    </p>
-    <p> Account Number: <strong>${bankDetails.accountNumber}</strong>    </p>
-
-  </div>
- <div class="col-md-8">
-  </div>
-</div>
-</section>
-<section class="py-4"></section>
-
-            </div>
-             </main>
-            <footer class="text-center bg-warning p-2">
-                <p class="m-0">Powered by Construction Management System (CMS)</p>
-            </footer>
-           
-</body>
-
-
-</html>`;
 };
 
 //get payment done and job completed

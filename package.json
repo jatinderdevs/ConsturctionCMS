@@ -1,15 +1,14 @@
 {
   "engines": {
-    "node":"16.15.1"
+    "node": "16.15.1"
   },
   "name": "backend",
   "version": "1.0.0",
   "description": "This app for the construction companies to manage their job data and their employee details and also generate invoices and track down ",
   "main": "index.js",
-
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "author": "JATINDER SINGH",
   "license": "ISC",
@@ -31,6 +30,7 @@
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^8.0.0",
+    "pdf-creator-node": "^2.3.5",
     "pdfkit": "^0.15.0",
     "puppeteer": "^23.2.0"
   }

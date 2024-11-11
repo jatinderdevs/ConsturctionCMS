@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .invoice-header {
+            text-align: right;
+        }
+
+        .invoice-details {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <button type="button" onclick="generatePDF()" class="btn-sm btn-danger pull-right">Export to PDF</button>
+    <div id="divToExport">
+        <div class="invoice-header">
+            <h3>EDIFIC DEVELOPERS PTY LTD</h3>
+            <p>Address: 1 Phoenix Cct, Brookfield, VIC, 3338</p>
+            <p>ABN: 40442831848</p>
+            <hr />
+
+            <h3>INVOICE</h3>
+            <p>INVOICE NO: 82</p>
+
+            <p>INVOICE DATE: August 29th 2024</p>
+        </div>
+
+        <div class="invoice-details">
+            <h3>To</h3>
+            <p>CORMACK CONCRETING</p>
+            <p>9 Boneyards Ave, Torquay</p>
+            <p>VIC 3228</p>
+            <p>Job Location: Lot 5112, Rush Carescent, Manor Lakes, VIC, 3024</p>
+            <p>Job Number: 215861</p>
+            <p>Job Date: 20th August 2024</p>
+        </div>
+
+        <table>
+            <tr>
+                <th>Description</th>
+                <th>Area (Sqm)</th>
+                <th>Unit Price</th>
+                <th>Total Price AUD</th>
+            </tr>
+            <tr>
+                <td>House Slabs</td>
+                <td>268.34</td>
+                <td>$20.00</td>
+                <td>$5,366.80</td>
+            </tr>
+            <tr>
+                <td>High Bread Job (extra Labor)</td>
+                <td></td>
+                <td>$600.00</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Able Flex (Legging)</td>
+                <td></td>
+                <td>$80.00</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>$6,046.80</td>
+            </tr>
+            <tr>
+                <td>GST</td>
+                <td></td>
+                <td>10.00%</td>
+                <td><%=InvoiceData.GST%></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><strong>Total Amount</strong></td>
+                <td><strong>$6,651.48</strong></td>
+            </tr>
+
+            <tr>
+                <td>House Slabs</td>
+                <td>268.34</td>
+                <td>$20.00</td>
+                <td>$5,366.80</td>
+            </tr>
+            <tr>
+                <td>High Bread Job (extra Labor)</td>
+                <td></td>
+                <td>$600.00</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Able Flex (Legging)</td>
+                <td></td>
+                <td>$80.00</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>$6,046.80</td>
+            </tr>
+            <tr>
+                <td>GST</td>
+                <td></td>
+                <td>10.00%</td>
+                <td>$604.68</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><strong>Total Amount</strong></td>
+                <td><strong><%=InvoiceData.totalInvoice%></strong></td>
+            </tr>
+        </table>
+        <h4>Please pay the above amount to:</h4>
+        <hr />
+
+        <p>Account name: EDIFICE DEVELOPERS PTY LTD</p>
+        <p>BSB: 063994</p>
+        <p>Acc. No: 10297078</p>
+    </div>
+</body>
+
+<script type="text/javascript">
+    function generatePDF() {
+
+        // Choose the element id which you want to export.
+        var element = document.getElementById('divToExport');
+        element.style.width = '700px';
+        element.style.height = '1200px';
+        var opt = {
+            margin: 0.5,
+            filename: 'myfile.pdf',
+            image: {
+                type: 'jpeg',
+                quality: 2
+            },
+            html2canvas: {
+                scale: 2
+            },
+            jsPDF: {
+                unit: 'in',
+                format: 'Legal',
+                orientation: 'portrait',
+                precision: '12'
+            }
+        };
+
+        // choose the element and pass it to html2pdf() function and call the save() on it to save as pdf.
+        html2pdf().set(opt).from(element).save();
+    }
+</script>
+
+</html>
