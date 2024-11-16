@@ -1,14 +1,19 @@
 const User = require("../models/user");
 
 exports.signin = (req, res, next) => {
-  let redirectURL;
-  if (req.user) {
-    //check user role accordingly show dashboard
-    redirectURL = req.user.role === "superadmin" ? "/dashboard/" : "/admin/";
-    res.redirect(redirectURL);
-  } else {
-    res.render("user/signin.ejs");
-  }
+  // if (res.headersSent) {
+  //   console.log("Headers already sent");
+  //   return; // Prevent sending another response
+  // }
+  // let redirectURL;
+  // if (req.user) {
+  //   //check user role accordingly show dashboard
+  //   redirectURL = req.user.role === "superadmin" ? "/dashboard/" : "/admin/";
+  //   return res.redirect(redirectURL);
+  // } else {
+  //   return res.render("user/signin.ejs");
+  // }
+  return res.render("user/signin.ejs");
 };
 
 exports.postSignin = async (req, res, next) => {

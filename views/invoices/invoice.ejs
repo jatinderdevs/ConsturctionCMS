@@ -25,10 +25,14 @@
             margin-top: 20px;
         }
 
+        .thead {
+            background: #cce5ff;
+        }
+
         table,
         th,
         td {
-            border: 1px solid black;
+            border: 0.7px solid black;
         }
 
         th,
@@ -36,125 +40,148 @@
             padding: 8px;
             text-align: left;
         }
+
+        p {
+            text-transform: capitalize;
+        }
+
+        .btn {
+            font-weight: bold;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #dfdfdf;
+            padding: 10px 20px;
+            background: #cce5ff;
+            border: 1px solid;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            box-shadow: none;
+        }
+
+        strong {
+            text-transform: capitalize;
+        }
+
+        .uppercase {
+            text-transform: uppercase;
+        }
     </style>
 </head>
 
 <body>
-    <button type="button" onclick="generatePDF()" class="btn-sm btn-danger pull-right">Export to PDF</button>
+    <button type="button" onclick="generatePDF()" class="btn">Export to PDF</button>
     <div id="divToExport">
         <div class="invoice-header">
-            <h3>EDIFIC DEVELOPERS PTY LTD</h3>
-            <p>Address: 1 Phoenix Cct, Brookfield, VIC, 3338</p>
-            <p>ABN: 40442831848</p>
+            <h1 class="uppercase"><%=InvoiceData.job.companyId.companyName%></h1>
+            <p>Address: <%=InvoiceData.job.companyId.address.street%>,<%=InvoiceData.job.companyId.address.suburb%>,
+                <%=InvoiceData.job.companyId.address.postCode%></p>
+            <p>ABN:<%= InvoiceData.job.companyId.bankDetails.ABN_number%></p>
             <hr />
 
             <h3>INVOICE</h3>
-            <p>INVOICE NO: 82</p>
+            <p> INVOICE NO: <strong> <%=InvoiceData.job.invoice.invoiceNumber%></strong></p>
 
-            <p>INVOICE DATE: August 29th 2024</p>
+            <p>INVOICE DATE: <%=InvoiceData.job.jobDate.toLocaleDateString(undefined, {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })%></p>
         </div>
 
         <div class="invoice-details">
-            <h3>To</h3>
-            <p>CORMACK CONCRETING</p>
-            <p>9 Boneyards Ave, Torquay</p>
-            <p>VIC 3228</p>
-            <p>Job Location: Lot 5112, Rush Carescent, Manor Lakes, VIC, 3024</p>
-            <p>Job Number: 215861</p>
-            <p>Job Date: 20th August 2024</p>
+            <p>To</p>
+            <h3 class="uppercase"><%=InvoiceData.job.contractorDetails.contractor.conName%></h3>
+            <p><%=InvoiceData.job.contractorDetails.contractor.conAddress%></p>
+
+        </div>
+        <div style="text-align: right;">
+            <p>Job Location: <%=InvoiceData.job.location%></p>
+            <input type="hidden" name="jobnumber" id="jobnumber" value="<%=InvoiceData.job.jobNumber%>">
+            <p>Job Number: <%=InvoiceData.job.jobNumber%></p>
+            <p>Job Date: <%=InvoiceData.job.createdAt.toLocaleDateString(undefined, {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })%></p>
         </div>
 
         <table>
-            <tr>
+            <tr class="thead">
                 <th>Description</th>
                 <th>Area (Sqm)</th>
                 <th>Unit Price</th>
-                <th>Total Price AUD</th>
+                <th>Total Price AUD:</th>
             </tr>
             <tr>
                 <td>House Slabs</td>
-                <td>268.34</td>
-                <td>$20.00</td>
-                <td>$5,366.80</td>
-            </tr>
-            <tr>
-                <td>High Bread Job (extra Labor)</td>
-                <td></td>
-                <td>$600.00</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Able Flex (Legging)</td>
-                <td></td>
-                <td>$80.00</td>
-                <td></td>
+                <td><%=InvoiceData.job.jobSize%></td>
+                <td><%=InvoiceData.job.contractorDetails.unitPriceRate.toLocaleString("en-US", { style: "currency", currency: "USD" })%>
+                </td>
+                <td><%=InvoiceData.jobCharges.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
             </tr>
             <tr>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>$6,046.80</td>
-            </tr>
-            <tr>
-                <td>GST</td>
                 <td></td>
-                <td>10.00%</td>
-                <td><%=InvoiceData.GST%></td>
             </tr>
+            <%if(InvoiceData.job.additionalCharges.length>0){%>
+            <%for(let charges of InvoiceData.job.additionalCharges){%>
             <tr>
                 <td></td>
                 <td></td>
-                <td><strong>Total Amount</strong></td>
-                <td><strong>$6,651.48</strong></td>
+                <td><strong><%=charges.chargeInfo%></strong></td>
+                <td><%=charges.charges.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
+            </tr>
+            <%}%>
+                <%}%>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><strong>Subtotal:</strong></td>
+                <td><strong><%=InvoiceData.subtotal.toLocaleString("en-US", { style: "currency", currency: "USD" })%></strong>
+                </td>
             </tr>
 
             <tr>
-                <td>House Slabs</td>
-                <td>268.34</td>
-                <td>$20.00</td>
-                <td>$5,366.80</td>
-            </tr>
-            <tr>
-                <td>High Bread Job (extra Labor)</td>
                 <td></td>
-                <td>$600.00</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Able Flex (Legging)</td>
-                <td></td>
-                <td>$80.00</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>$6,046.80</td>
-            </tr>
-            <tr>
                 <td>GST</td>
-                <td></td>
-                <td>10.00%</td>
-                <td>$604.68</td>
+                <td>10%</td>
+                <td><%=InvoiceData.GST.toLocaleString("en-US", { style: "currency", currency: "USD" })%></td>
             </tr>
+
+
+
             <tr>
                 <td></td>
                 <td></td>
-                <td><strong>Total Amount</strong></td>
-                <td><strong><%=InvoiceData.totalInvoice%></strong></td>
+                <td><strong> Grand Total:</strong></td>
+                <td><strong><%=InvoiceData.totalInvoice.toLocaleString("en-US", { style: "currency", currency: "USD" })%></strong>
+                </td>
             </tr>
         </table>
         <h4>Please pay the above amount to:</h4>
         <hr />
 
-        <p>Account name: EDIFICE DEVELOPERS PTY LTD</p>
-        <p>BSB: 063994</p>
-        <p>Acc. No: 10297078</p>
+        <p>Account name: <strong> <%=InvoiceData.job.companyId.companyName%></strong></p>
+        <p>BSB: <strong><%=InvoiceData.job.companyId.bankDetails.BSB%></strong></p>
+        <p>Acc. No: <strong><%=InvoiceData.job.companyId.bankDetails.accountNumber%></strong></p>
     </div>
 </body>
 
 <script type="text/javascript">
+    const jobnumber = document.querySelector("#jobnumber").value.trim();
+    // console.log(jobnumber.toLowerCase())
+
     function generatePDF() {
 
         // Choose the element id which you want to export.
@@ -163,7 +190,7 @@
         element.style.height = '1200px';
         var opt = {
             margin: 0.5,
-            filename: 'myfile.pdf',
+            filename: `Invoice_${jobnumber}.pdf`,
             image: {
                 type: 'jpeg',
                 quality: 2
