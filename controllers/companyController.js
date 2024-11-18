@@ -34,7 +34,7 @@ module.exports.createUpdate = async (req, res, next) => {
 module.exports.companyProfile = async (req, res, next) => {
   const { companyId } = req.user;
   const companyData = await Company.findOne({ _id: companyId });
-  return res.render("company/companyprofile.ejs", { companyData });
+  return res.render("company/companyProfile.ejs", { companyData });
 };
 
 //edit company profile details

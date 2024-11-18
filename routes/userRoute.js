@@ -19,7 +19,7 @@ const {
 
 router
   .route("/signin")
-  .get(asyncWrap(signin))
+  .get(signin)
   .post(
     redirectUrl,
     passport.authenticate("local", {
