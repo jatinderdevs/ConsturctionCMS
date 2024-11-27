@@ -50,7 +50,7 @@
             border-radius: 5px;
             box-shadow: 0 0 10px #dfdfdf;
             padding: 10px 20px;
-            background: #cce5ff;
+            background: #f31717;
             border: 1px solid;
             cursor: pointer;
         }
@@ -70,7 +70,9 @@
 </head>
 
 <body>
-    <button type="button" onclick="generatePDF()" class="btn">Export to PDF</button>
+    <div style="background:#dfdfdf; padding:10px ; box-shadow: 0 0 0px #dfdfdf; border-radius: 10px;">
+        <button type="button" onclick="generatePDF()" class="btn">Export to PDF</button>
+    </div>
     <div id="divToExport">
         <div class="invoice-header">
             <h1 class="uppercase"><%=InvoiceData.job.companyId.companyName%></h1>

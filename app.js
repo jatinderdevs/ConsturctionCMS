@@ -21,6 +21,7 @@ const company = require("./routes/company");
 const admin = require("./routes/admin");
 const job = require("./routes/jobRoute");
 const contractor = require("./routes/contractorRoute");
+const homeRoute = require("./routes/homeRoute");
 
 //middleware
 const { isauth, isAdmin } = require("./utilities/middleware/isauth");
@@ -85,6 +86,7 @@ app.use((req, res, next) => {
 });
 
 // routers links
+app.use("/", homeRoute);
 app.use("/user", userRoute);
 app.use("/dashboard", isauth, isAdmin, dashboard);
 app.use("/company", isauth, company);

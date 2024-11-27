@@ -12,6 +12,11 @@ const {
 
 const { redirectUrl, isauth } = require("../utilities/middleware/isauth");
 
+const {
+  isCompany,
+  isContractor,
+} = require("../utilities/middleware/misMiddleware");
+
 const asyncWrap = require("../utilities/asyncWrap");
 const {
   validateProfile,
@@ -29,7 +34,7 @@ router
     asyncWrap(postSignin)
   );
 
-router.get("/profile", isauth, asyncWrap(profile));
+router.get("/profile", isauth, isCompany, asyncWrap(profile));
 
 router
   .route("/profileupdate")
