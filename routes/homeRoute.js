@@ -7,4 +7,8 @@ const { signin } = require("../controllers/userController");
 
 router.get("/", signin);
 
+router.get("/test", (req, res, next) => {
+  return res.render("test.ejs");
+});
+
 module.exports = router;

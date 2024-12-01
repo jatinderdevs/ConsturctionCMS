@@ -5,11 +5,180 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+
+    <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap4.css">
 </head>
 
 <body>
     <h1>test</h1>
-    <a href="<%= path%>" target="_blank">Download</a>
+    <div class="container">
+        <table id="myTable" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>John Doe</td>
+                    <td>10th Grade</td>
+                    <td>16</td>
+                    <td>Male</td>
+                    <td>1234 Elm St, Springfield</td>
+                </tr>
+                <tr>
+                    <td>Jane Smith</td>
+                    <td>12th Grade</td>
+                    <td>18</td>
+                    <td>Female</td>
+                    <td>5678 Oak Ave, Rivertown</td>
+                </tr>
+                <tr>
+                    <td>Mark Johnson</td>
+                    <td>9th Grade</td>
+                    <td>15</td>
+                    <td>Male</td>
+                    <td>9101 Pine Rd, Hilltop</td>
+                </tr>
+                <tr>
+                    <td>Emily Davis</td>
+                    <td>11th Grade</td>
+                    <td>17</td>
+                    <td>Female</td>
+                    <td>1122 Maple Dr, Lakeside</td>
+                </tr>
+                <tr>
+                    <td>Michael Brown</td>
+                    <td>10th Grade</td>
+                    <td>16</td>
+                    <td>Male</td>
+                    <td>3344 Birch Blvd, Greenfield</td>
+                </tr>
+                <tr>
+                    <td>Amy Wilson</td>
+                    <td>12th Grade</td>
+                    <td>18</td>
+                    <td>Female</td>
+                    <td>5566 Cedar Ln, Sunnydale</td>
+                </tr>
+                <tr>
+                    <td>Chris Lee</td>
+                    <td>9th Grade</td>
+                    <td>15</td>
+                    <td>Male</td>
+                    <td>7788 Walnut St, Eastside</td>
+                </tr>
+                <tr>
+                    <td>Anna Martinez</td>
+                    <td>11th Grade</td>
+                    <td>17</td>
+                    <td>Female</td>
+                    <td>9900 Redwood Rd, Westbury</td>
+                </tr>
+                <tr>
+                    <td>David Harris</td>
+                    <td>10th Grade</td>
+                    <td>16</td>
+                    <td>Male</td>
+                    <td>2233 Fir Ave, Pleasantville</td>
+                </tr>
+                <tr>
+                    <td>Olivia Clark</td>
+                    <td>12th Grade</td>
+                    <td>18</td>
+                    <td>Female</td>
+                    <td>4455 Willow St, Brookstone</td>
+                </tr>
+                <tr>
+                    <td>James Lewis</td>
+                    <td>9th Grade</td>
+                    <td>15</td>
+                    <td>Male</td>
+                    <td>6677 Cherry Ln, Meadowbrook</td>
+                </tr>
+                <tr>
+                    <td>Grace Walker</td>
+                    <td>11th Grade</td>
+                    <td>17</td>
+                    <td>Female</td>
+                    <td>8899 Aspen Dr, Riverdale</td>
+                </tr>
+                <tr>
+                    <td>Daniel Young</td>
+                    <td>10th Grade</td>
+                    <td>16</td>
+                    <td>Male</td>
+                    <td>1122 Fir Rd, Oakwood</td>
+                </tr>
+                <tr>
+                    <td>Sophia King</td>
+                    <td>12th Grade</td>
+                    <td>18</td>
+                    <td>Female</td>
+                    <td>3344 Elm Ln, Greenhill</td>
+                </tr>
+                <tr>
+                    <td>William Scott</td>
+                    <td>9th Grade</td>
+                    <td>15</td>
+                    <td>Male</td>
+                    <td>5566 Pine Blvd, Sunnyridge</td>
+                </tr>
+                <tr>
+                    <td>Isabella Adams</td>
+                    <td>11th Grade</td>
+                    <td>17</td>
+                    <td>Female</td>
+                    <td>7788 Maple Ave, Forestview</td>
+                </tr>
+                <tr>
+                    <td>Elijah Green</td>
+                    <td>10th Grade</td>
+                    <td>16</td>
+                    <td>Male</td>
+                    <td>9900 Oak St, Woodbridge</td>
+                </tr>
+                <tr>
+                    <td>Mia Perez</td>
+                    <td>12th Grade</td>
+                    <td>18</td>
+                    <td>Female</td>
+                    <td>2233 Cedar Rd, Glenwood</td>
+                </tr>
+                <tr>
+                    <td>Lucas White</td>
+                    <td>9th Grade</td>
+                    <td>15</td>
+                    <td>Male</td>
+                    <td>4455 Birch Dr, Hillcrest</td>
+                </tr>
+                <tr>
+                    <td>Charlotte Harris</td>
+                    <td>11th Grade</td>
+                    <td>17</td>
+                    <td>Female</td>
+                    <td>6677 Redwood Ln, Lakeshore</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap4.js"></script>
+
+    <script>
+        new DataTable('#myTable');
+    </script>
 </body>
 
 </html>

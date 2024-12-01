@@ -46,6 +46,8 @@
         }
 
         .btn {
+            text-decoration: none;
+            color: inherit;
             font-weight: bold;
             border-radius: 5px;
             box-shadow: 0 0 10px #dfdfdf;
@@ -66,15 +68,32 @@
         .uppercase {
             text-transform: uppercase;
         }
+
+        .badge {
+            text-align: left;
+        }
+
+        .badgeSpan {
+            border-radius: 5px;
+            background-color: #d4edda;
+            padding: 10px 40px;
+        }
     </style>
 </head>
 
 <body>
-    <div style="background:#dfdfdf; padding:10px ; box-shadow: 0 0 0px #dfdfdf; border-radius: 10px;">
+    <div class=""
+        style="display: flex; justify-content: space-around; background:#dfdfdf; padding:10px ; box-shadow: 0 0 0px #dfdfdf; border-radius: 10px;">
         <button type="button" onclick="generatePDF()" class="btn">Export to PDF</button>
+        <a href="/job/index" style="background-color: black; color: white;" class="btn ">Back</a>
     </div>
     <div id="divToExport">
         <div class="invoice-header">
+            <br>
+            <div class="badge">
+                <span
+                    class="<%=InvoiceData.job.invoice.IsPaid?'badgeSpan':''%>"><%=InvoiceData.job.invoice.IsPaid?'PAID':''%></span>
+            </div>
             <h1 class="uppercase"><%=InvoiceData.job.companyId.companyName%></h1>
             <p>Address: <%=InvoiceData.job.companyId.address.street%>,<%=InvoiceData.job.companyId.address.suburb%>,
                 <%=InvoiceData.job.companyId.address.postCode%></p>
@@ -101,7 +120,7 @@
         <div style="text-align: right;">
             <p>Job Location: <%=InvoiceData.job.location%></p>
             <input type="hidden" name="jobnumber" id="jobnumber" value="<%=InvoiceData.job.jobNumber%>">
-            <p>Job Number: <%=InvoiceData.job.jobNumber%></p>
+            <p>Job Number: <strong> <%=InvoiceData.job.jobNumber%></strong></p>
             <p>Job Date: <%=InvoiceData.job.createdAt.toLocaleDateString(undefined, {
                 weekday: 'long',
                 year: 'numeric',

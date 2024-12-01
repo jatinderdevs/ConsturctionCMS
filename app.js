@@ -40,6 +40,8 @@ app.engine("ejs", ejsMate);
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //database link
+// const DB = process.env.Local_URI;
+
 const DB = process.env.DB_URI;
 
 //session stroe

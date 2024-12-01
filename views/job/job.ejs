@@ -1,11 +1,11 @@
 <% layout('../includes/layout.ejs') %>
 
 <section>
-    <div class="actionbtn flex py-3">
+    <div class="actionbtn flex respFlex py-3">
         <form action="/job/delete/<%=job._id%>" method="post">
             <input type="hidden" name="jobId" value="<%=job._id%>">
             <button onclick="return confirm('Are you sure to delete job details parmanently?')" class="btn btn-danger">
-                <img src="/icons/trash.png" alt=""> Delete</button>
+                <img src="/icons/trash.png" alt=""> </button>
         </form>
 
 
@@ -14,11 +14,11 @@
         </button>
 
         <a href="/job/edit/<%=job._id%>" class="btn btn-info shadow">
-            <img src="/icons/edit.png" alt=""> Edit Details</a>
+            <img src="/icons/edit.png" alt=""> Edit</a>
 
         <a href="/job/genrate/<%=job._id%>" class="btn  btn-success shadow">
             <img src="/icons/download.png" alt="">
-            Download Invoice</a>
+            Invoice</a>
 
         <form action="/job/invoicestatus/<%=job._id%>" method="post">
             <input type="hidden" name="jobId" value="<%=job._id%>">
@@ -52,7 +52,7 @@
         <h1 class="alert alert-primary text-capitalize">Job details</h1>
         <div class="row align-items-center">
             <div class="col-md-4">
-                <div class="card">
+                <div class="card mb-2">
                     <div class="card-header alert alert-warning">
                         <b>Job Contractor</b>
                     </div>
@@ -69,11 +69,11 @@
     </div>
     </div>
     <div class="col-md-4">
-        <div class="card">
+        <div class="card mb-2">
             <div class="card-header alert alert-info">
                 <b>Payment Status</b>
             </div>
-            <div class="card-body flex ">
+            <div class="card-body flex flex-wrap ">
                 <div>
                     <strong>Invoice Number : </strong>
                     <h5>
@@ -93,7 +93,7 @@
     </div>
 
     <div class="col-md-4">
-        <div class="card">
+        <div class="card mb-2">
             <div class="card-header  alert-success">
                 <b>Job Details</b>
             </div>
@@ -134,7 +134,7 @@
     <div class="col-md-8"></div>
 
     </div>
-    <table class="table table-bordered text-capitalize mt-4">
+    <table class="table table-responsive-sm table-bordered text-capitalize mt-4">
         <thead class="alert alert-primary">
             <tr>
                 <th>Descripation</th>
