@@ -3,13 +3,22 @@ const Contractor = require("../models/contractor");
 const Job = require("../models/Jobs");
 const { jobValidation } = require("../utilities/validations/jobValidate");
 
-const PDFDocument = require("pdfkit");
-const fs = require("fs");
 module.exports.index = async (req, res, next) => {
   const rows = 1;
   const { companyId } = req.user;
-  const jobs = await Job.find({ companyId: companyId });
-  res.render("job/index", { jobs, rows });
+  //page items limit
+  const pageSize = 10;
+  const page = parseInt(req.query.page) || 1;
+
+  //count pages for the pagination
+  const totalItems = await Job.find({ companyId: companyId }).countDocuments();
+  const totalPages = Math.ceil(totalItems / pageSize);
+
+  const skipRecords = (page - 1) * pageSize;
+  const jobs = await Job.find({ companyId: companyId })
+    .skip(skipRecords)
+    .limit(pageSize);
+  res.render("job/index", { jobs, rows, totalPages, currentPage: page });
 };
 
 module.exports.create = async (req, res, next) => {
