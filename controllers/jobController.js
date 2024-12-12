@@ -17,7 +17,8 @@ module.exports.index = async (req, res, next) => {
   const skipRecords = (page - 1) * pageSize;
   const jobs = await Job.find({ companyId: companyId })
     .skip(skipRecords)
-    .limit(pageSize);
+    .limit(pageSize)
+    .sort({ "invoice.IsPaid": 1 });
   res.render("job/index", { jobs, rows, totalPages, currentPage: page });
 };
 

@@ -64,3 +64,17 @@ exports.logout = async (req, res, next) => {
     res.redirect("/user/signin");
   });
 };
+//change password of user
+module.exports.changePassword = async (req, res, next) => {
+  const { username } = req.user;
+  const { currentPassword, confirmPassword } = req.body;
+  const user = await User.findOne({ username });
+  user.changePassword(currentPassword, confirmPassword, function (err) {
+    if (err) {
+      next(err);
+    } else {
+      req.flash("success", "Password Has beens sucessfully Updated");
+      res.redirect("/user/profile");
+    }
+  });
+};

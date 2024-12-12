@@ -8,6 +8,7 @@ const {
   logout,
   editProfile,
   updateProfile,
+  changePassword,
 } = require("../controllers/userController");
 
 const { redirectUrl, isauth } = require("../utilities/middleware/isauth");
@@ -40,6 +41,8 @@ router
   .route("/profileupdate")
   .get(asyncWrap(editProfile))
   .post(validateProfile, asyncWrap(updateProfile));
+
+router.post("/changepassword", isauth, asyncWrap(changePassword));
 
 router.get("/logout", asyncWrap(logout));
 

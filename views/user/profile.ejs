@@ -80,7 +80,7 @@
 
                 </table>
                 <h4 class=" alert alert-danger">Change Password</h4>
-                <form action="" method="post" novalidate class="needs-validation">
+                <form action="/user/changepassword" method="post" novalidate class="needs-validation">
                     <table class="table table-bordered text-capitalize table-striped">
 
                         <tr>
@@ -88,7 +88,8 @@
                                 <h6 class="m-0">Current password</h6>
                             </td>
                             <td>
-                                <input type="password" name="" required class="form-control" id="">
+                                <input type="password" name="currentPassword" required class="form-control"
+                                    id="currentPassword">
                                 <div class="invalid-feedback">
                                     Password field is required
                                 </div>
@@ -99,7 +100,8 @@
                                 <h6 class="m-0">Set New password</h6>
                             </td>
                             <td>
-                                <input type="password" name="" required class="form-control" id="">
+                                <input type="password" name="newPassword" required class="form-control"
+                                    id="newPassword">
                                 <div class="invalid-feedback">
                                     new Password field is required
                                 </div>
@@ -111,7 +113,10 @@
                                 <h6 class="m-0">Confirm new password</h6>
                             </td>
                             <td>
-                                <input type="password" name="" required class="form-control" id="">
+                                <input type="password" onkeyup="matchPassword()" name="confirmPassword" required
+                                    class="form-control" id="confirmPassword">
+                                <small id="MSG" name="MSG" class=""></small>
+
                                 <div class="invalid-feedback">
                                     confirm Password field is required
                                 </div>
@@ -122,7 +127,8 @@
 
                             </td>
                             <td class="text-right">
-                                <button type="submit" class="btn btn-primary">Update Password</button>
+                                <button type="submit" disabled class="btn btn-primary" id="btnSubmit">Update
+                                    Password</button>
                             </td>
                         </tr>
 
@@ -133,3 +139,26 @@
         </div>
     </div>
 </section>
+
+<script>
+    function matchPassword() {
+        let errMsg = ""
+        const btn = document.querySelector('#btnSubmit');
+        const Msg = document.querySelector('#MSG');
+        const newPassword = document.querySelector('#newPassword').value;
+        const confirmPassword = document.querySelector('#confirmPassword').value;
+
+        const np = newPassword.trim().toLowerCase();
+        const cp = confirmPassword.trim().toLowerCase();
+        if (cp !== np) {
+            Msg.className = "alert-danger";
+            btn.setAttribute("disabled", "disabled")
+
+            Msg.innerHTML = 'Password not matched';
+        } else {
+            btn.removeAttribute("disabled")
+            Msg.className = 'alert-success';
+            Msg.innerHTML = 'Password Matched';
+        }
+    }
+</script>
