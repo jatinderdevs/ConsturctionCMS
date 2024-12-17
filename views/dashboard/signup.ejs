@@ -38,7 +38,16 @@
                 Contact number is required filed
             </div>
         </div>
-        <div class="col-md-3 mb-3 bg-warning p-1">
+        <div class="col-md-6 mb-3">
+            <label for="contact" class="badge-warning">Subscripation Active Until</label>
+            <input type="date" class="form-control " id="subscriptionExpireOn" required
+                value="<%=formData?.subscriptionExpireOn%>" name="subscriptionExpireOn"
+                aria-describedby="validationServer03Feedback">
+            <div class="invalid-feedback">
+                Subscripation Active is required filed
+            </div>
+        </div>
+        <div class="col-md-6 mb-6 bg-warning p-1">
             <label for="username" class="">username </label>
             <input type="text" class="form-control " required value="<%=formData?.username%>" id="username"
                 name="username" aria-describedby="validationServer03Feedback">
@@ -46,7 +55,7 @@
                 Username is required filed
             </div>
         </div>
-        <div class="col-md-3 mb-3 bg-warning p-1">
+        <div class="col-md-6 mb-6 bg-warning p-1">
             <label for="password" class="">password </label>
             <input type="password" class="form-control " required id="password" name="password"
                 aria-describedby="validationServer03Feedback">
@@ -55,18 +64,7 @@
             </div>
         </div>
     </div>
-    <div class="form-group">
-        <div class="form-check">
-            <input class="form-check-input " type="checkbox" value="" id="invalidCheck3"
-                aria-describedby="invalidCheck3Feedback">
-            <label class="form-check-label" for="invalidCheck3">
-                Agree to terms and conditions
-            </label>
-            <div id="invalidCheck3Feedback" class="invalid-feedback">
-                You must agree before submitting.
-            </div>
-        </div>
-    </div>
+    <hr>
     <button class="btn btn-success" type="submit">Register User</button>
     </form>
     </div>

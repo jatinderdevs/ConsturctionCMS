@@ -22,6 +22,7 @@ const admin = require("./routes/admin");
 const job = require("./routes/jobRoute");
 const contractor = require("./routes/contractorRoute");
 const homeRoute = require("./routes/homeRoute");
+const userManagement = require("./routes/userManagementRoute");
 
 //middleware
 const { isauth, isAdmin } = require("./utilities/middleware/isauth");
@@ -40,9 +41,9 @@ app.engine("ejs", ejsMate);
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //database link
-//const DB = process.env.Local_URI;
+const DB = process.env.Local_URI;
 
-const DB = process.env.DB_URI;
+//const DB = process.env.DB_URI;
 
 //session stroe
 const store = MongoStore.create({
@@ -90,6 +91,10 @@ app.use((req, res, next) => {
 // routers links
 app.use("/", homeRoute);
 app.use("/user", userRoute);
+
+//super admin handling the users accounts
+app.use("/userManagement", isauth, isAdmin, userManagement);
+
 app.use("/dashboard", isauth, isAdmin, dashboard);
 app.use("/company", isauth, company);
 app.use("/admin", isauth, isCompany, isContractor, admin);

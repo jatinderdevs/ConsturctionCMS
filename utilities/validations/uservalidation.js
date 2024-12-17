@@ -5,6 +5,7 @@ const userschema = Joi.object({
   fullname: Joi.string().required(),
   email: Joi.string().required(),
   contact: Joi.string().required(),
+  subscriptionExpireOn: Joi.date().required(),
   username: Joi.string().min(3).max(8).required(),
   password: Joi.string().min(3).max(10).required(),
 });

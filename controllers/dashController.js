@@ -12,7 +12,8 @@ module.exports.signup = async (req, res, next) => {
 };
 
 module.exports.signupsubmit = async (req, res, next) => {
-  const { fullname, email, contact, username, password } = req.body;
+  const { fullname, email, contact, username, password, subscriptionExpireOn } =
+    req.body;
 
   let newuser = new User({
     username: username,
@@ -20,6 +21,7 @@ module.exports.signupsubmit = async (req, res, next) => {
     image:
       "https://www.pngitem.com/pimgs/m/581-5813504_avatar-dummy-png-transparent-png.png",
     isactive: true,
+    subscriptionExpireOn,
     email: email,
     contactNumber: contact,
     role: "admin",

@@ -10,6 +10,7 @@ const userSchema = new Schema(
     },
     image: String,
     isactive: Boolean,
+    subscriptionExpireOn: Date,
     email: {
       type: String,
       require: true,

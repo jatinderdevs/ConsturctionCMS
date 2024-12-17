@@ -4,7 +4,17 @@ module.exports.isauth = asyncWrap(async (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.flash("error", "you do note have permission to access this page");
     req.session.requestedUrl = req.originalUrl;
-    return res.redirect("/auth/signin");
+    return res.redirect("/user/signin");
+  }
+  const currentDate = new Date();
+  const subDate = req.user.subscriptionExpireOn;
+
+  if (!subDate >= currentDate) {
+    req.flash(
+      "error",
+      "your subscripation has been expired please contact admin to activate"
+    );
+    return res.redirect("/user/signin");
   }
   next();
 });
