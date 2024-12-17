@@ -33,7 +33,7 @@ module.exports.signupsubmit = async (req, res, next) => {
 
 module.exports.users = async (req, res, next) => {
   const rows = 1;
-  const users = await User.find({});
+  const users = await User.find({ role: "admin" });
 
   return res.render("dashboard/userList", { users, rows });
 };

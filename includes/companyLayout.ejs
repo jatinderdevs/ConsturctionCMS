@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Job Track App</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/stylesheet.css">
 </head>
 
 <body>
+    <%if(currentUser){%>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <a class="navbar-brand" href="/admin/">My Work Management App</a>
@@ -19,6 +20,19 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <%if(currentUser.role=="superadmin"){%>
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/dashboard/">Dashboard <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/signin">User Management</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Reports</a>
+                    </li>
+                </ul>
+                <%}else{%>
                 <ul class="navbar-nav">
                     <li class="nav-item active">
                         <a class="nav-link" href="/admin/">Home <span class="sr-only">(current)</span></a>
@@ -29,8 +43,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Pricing</a>
                     </li>
-
                 </ul>
+                <%}%>
 
             </div>
             <div class="pull-right">
@@ -43,9 +57,13 @@
                         <span> Hi! <i class="text-capitalize"> <%= currentUser ?currentUser.fullname:''%></i></span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/user/profile">Profile Settings</a>
-                        <a class="dropdown-item" href="#">Account Settings</a>
-                        <a href="/user/logout" class="btn btn-sm btn-warning dropdown-item">Log Out</a>
+                        <a class="dropdown-item py-3" href="/user/profile"> <img src="/icons/profile.png" alt="">
+                            Profile
+                            Settings</a>
+                        <a class="dropdown-item py-3" href="#"><img src="/icons/account.png" alt=""> Account
+                            Settings</a>
+                        <a href="/user/logout" class="btn py-3 btn-sm btn-warning dropdown-item"><img
+                                src="/icons/logout.png" alt=""> Log Out</a>
                     </div>
                 </div>
 
@@ -54,24 +72,25 @@
             </div>
         </nav>
     </header>
-    <main>
-        <div class="container">
-            <%if(success && success.length){%>
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong> <%=success %><%=error %></strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <%}%>
+    <%}%>
+                <main>
+                    <div class="container">
+                        <%if(success && success.length){%>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong> <%=success %><%=error %></strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <%}%>
             <%if(error && error.length){%>
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong><%=error %></strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <%}%>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong><%=error %></strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <%}%>
 
                 <section>
                     <h1 class="alert alert-primary">Company Profile</h1>
@@ -93,8 +112,8 @@
                         <div class="col-md-9">
                             
             <%- body%>
-            </div>
-            </section>
+                    </div>
+                    </section>
 
             </div>
             </main>

@@ -1,5 +1,10 @@
+const User = require("../models/user");
+
 module.exports.user = async (req, res, next) => {
-  const user = req.params.userId;
-  console.log(user);
-  return res.render("userManagement/user.ejs");
+  const userId = req.params.userId;
+  const user = await User.findOne({ _id: userId }).populate({
+    path: "companyId",
+  });
+
+  return res.render("userManagement/user.ejs", { user });
 };
