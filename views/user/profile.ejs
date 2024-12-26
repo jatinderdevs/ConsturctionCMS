@@ -46,6 +46,21 @@
                                     <%=user.isactive?'active':'deactivated'%></span></p>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <h6 class="m-0">Membership Expire Date</h6>
+                        </td>
+                        <td class="alert alert-info">
+                            <p class="m-0"><span class="  ">
+                                    <%=(user.subscriptionExpireOn).toLocaleDateString('en-GB', { 
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: '2-digit'                                     
+                                }).replace(/\//g, '-');%>
+                                </span></p>
+                        </td>
+                    </tr>
+
 
                 </table>
                 <h4 class=" alert alert-warning">Contact Information</h4>

@@ -8,12 +8,18 @@ module.exports.isauth = asyncWrap(async (req, res, next) => {
   }
   const currentDate = new Date();
   const subDate = req.user.subscriptionExpireOn;
+  const isactive = req.user.isactive;
 
-  if (!subDate >= currentDate) {
+  if (!subDate <= currentDate && !isactive) {
     req.flash(
       "error",
       "your subscripation has been expired please contact admin to activate"
     );
+    req.logout((err) => {
+      if (err) {
+        next(err);
+      }
+    });
     return res.redirect("/user/signin");
   }
   next();

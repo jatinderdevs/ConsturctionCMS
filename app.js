@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const path = require("path");
 const ejsMate = require("ejs-mate");
+//formating all the dates and time\
+const moment = require("moment");
 const passport = require("passport");
 const LocalPassport = require("passport-local");
 const flash = require("connect-flash");

@@ -9,15 +9,20 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="img">
+
+                        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="img-fluid" alt="">
                         <img src="<%=user.image%>" class="img-fluid" alt="">
 
                     </div>
                     <ul class="list-group">
-                        <li class="list-group-item active" aria-current="true"><a href="" class="text-white">Update
+                        <li class="list-group-item">
+                            <a href="/usermanagement/<%=user._id%>"> User Management</a>
+                        </li>
+
+                        <li class="list-group-item active" aria-current="true"><a
+                                href="/usermanagement/membership/<%=user._id%>" class="text-white">Update
                                 Subscripation Date</a>
                         </li>
-                        <li class="list-group-item">Deactivate the User</li>
-
                     </ul>
                 </div>
                 <div class="col-md-8">
@@ -41,7 +46,11 @@
                             </tr>
                             <tr>
                                 <th>subscriptionExpireOn</th>
-                                <td><span> <%=user.subscriptionExpireOn%></span></td>
+                                <td><span><%=(user.subscriptionExpireOn).toLocaleDateString('en-GB', { // British English locale
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                });%> </span></td>
                             </tr>
                             <tr>
                                 <th>email</th>
