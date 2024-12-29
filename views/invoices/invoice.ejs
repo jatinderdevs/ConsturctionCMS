@@ -5,6 +5,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+        * {
+
+            font-family: "Roboto", serif;
+        }
+
+        .color {
+            color: #007bff;
+        }
+
+        .m-0 {
+            margin: 0;
+            padding: 0;
+        }
+
+        .text-capitalize {
+            text-transform: capitalize;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -13,16 +33,18 @@
 
         .invoice-header {
             text-align: right;
+            border-bottom: 1px solid #dfdfdf;
         }
 
         .invoice-details {
-            margin-top: 20px;
+            /* margin-top: 20px; */
+
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin: 40px 0;
         }
 
         .thead {
@@ -41,7 +63,15 @@
             text-align: left;
         }
 
+        strong {
+            color: black;
+        }
+
         p {
+            margin: 0;
+            color: #222;
+            line-height: 1.6;
+            /* font-size: 14px; */
             text-transform: capitalize;
         }
 
@@ -78,6 +108,34 @@
             background-color: #d4edda;
             padding: 10px 40px;
         }
+
+        .flex {
+            padding: 20px 0;
+            justify-content: space-between;
+            display: flex;
+            align-items: center;
+        }
+
+        .tblPay {
+            border: 0;
+            margin: 0;
+            /* width: 35%; */
+        }
+
+        .tblPay th,
+        .tblPay td {
+            border: 1px solid #f9f9fb;
+        }
+
+        .flex img {
+            width: 20px;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 0 10px;
+            background-color: #007bff51;
+        }
     </style>
 </head>
 
@@ -88,6 +146,7 @@
         <a href="/job/index" style="background-color: black; color: white;" class="btn ">Back</a>
     </div>
     <div id="divToExport">
+
         <div class="invoice-header">
             <br>
             <div class="badge">
@@ -98,28 +157,34 @@
             <p>Address: <%=InvoiceData.job.companyId.address.street%>,<%=InvoiceData.job.companyId.address.suburb%>,
                 <%=InvoiceData.job.companyId.address.postCode%></p>
             <p>ABN:<%= InvoiceData.job.companyId.bankDetails.ABN_number%></p>
-            <hr />
 
-            <h3>INVOICE</h3>
-            <p> INVOICE NO: <strong> <%=InvoiceData.job.invoice.invoiceNumber%></strong></p>
 
-            <p>INVOICE DATE: <%=InvoiceData.job.jobDate.toLocaleDateString(undefined, {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })%></p>
-        </div>
-
-        <div class="invoice-details">
-            <p>To</p>
-            <h3 class="uppercase"><%=InvoiceData.job.contractorDetails.contractor.conName%></h3>
-            <p><%=InvoiceData.job.contractorDetails.contractor.conAddress%></p>
 
         </div>
-        <div style="text-align: right;">
+        <div class="flex">
+            <div class="invoice-details">
+                <p>Invoice To</p>
+                <h2 class="uppercase m-0 color"><%=InvoiceData.job.contractorDetails.contractor.conName%></h2>
+                <p><%=InvoiceData.job.contractorDetails.contractor.conAddress%></p>
+
+            </div>
+            <div style="text-align: right;">
+                <h2 class="color m-0">INVOICE</h2>
+                <p> INVOICE NO: <strong> <%=InvoiceData.job.invoice.invoiceNumber%></strong></p>
+
+                <p>Invoice Date: <strong><%=InvoiceData.job.jobDate.toLocaleDateString(undefined, {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })%></strong></p>
+            </div>
+
+        </div>
+        <input type="hidden" name="jobnumber" id="jobnumber" value="<%=InvoiceData.job.jobNumber%>">
+        <!-- <div style="text-align: right;">
             <p>Job Location: <%=InvoiceData.job.location%></p>
-            <input type="hidden" name="jobnumber" id="jobnumber" value="<%=InvoiceData.job.jobNumber%>">
+            
             <p>Job Number: <strong> <%=InvoiceData.job.jobNumber%></strong></p>
             <p>Job Date: <%=InvoiceData.job.createdAt.toLocaleDateString(undefined, {
                 weekday: 'long',
@@ -127,7 +192,7 @@
                 month: 'long',
                 day: 'numeric',
               })%></p>
-        </div>
+        </div> -->
 
         <table>
             <tr class="thead">
@@ -190,13 +255,77 @@
                 </td>
             </tr>
         </table>
-        <h4>Please pay the above amount to:</h4>
-        <hr />
+        <div class="flex">
+            <div>
 
-        <p>Account name: <strong> <%=InvoiceData.job.companyId.companyName%></strong></p>
-        <p>BSB: <strong><%=InvoiceData.job.companyId.bankDetails.BSB%></strong></p>
-        <p>Acc. No: <strong><%=InvoiceData.job.companyId.bankDetails.accountNumber%></strong></p>
+                <table class="tblPay">
+                    <tr>
+                        <th colspan="2">
+                            <h4 class="color uppercase m-0">Payment:</h4>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Account name:</th>
+                        <td><strong> <%=InvoiceData.job.companyId.companyName%></strong></td>
+                    </tr>
+                    <tr>
+                        <th>BSB:</th>
+                        <td><strong><%=InvoiceData.job.companyId.bankDetails.BSB%></strong></td>
+                    </tr>
+                    <tr>
+                        <th>Account No:</th>
+                        <td><strong><%=InvoiceData.job.companyId.bankDetails.accountNumber%></strong></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="text-right">
+
+                <table class="tblPay">
+                    <tr>
+                        <th colspan="2">
+                            <h4 class="color uppercase m-0">Job Details:</h4>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Job Location:</th>
+                        <td><strong> <%=InvoiceData.job.location%></strong></td>
+                    </tr>
+                    <tr>
+                        <th>Job Number: </th>
+                        <td><strong><%=InvoiceData.job.jobNumber%></strong></td>
+                    </tr>
+                    <tr>
+                        <th>Job Date:</th>
+                        <td><strong>
+                                <%=InvoiceData.job.createdAt.toLocaleDateString(undefined, {
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                              })%>
+                            </strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <footer>
+            <div class="flex">
+                <div>
+                    <p> <img src="/icons/phone-call.png" alt=""> <%=InvoiceData.job.companyId.contactNumber%></p>
+                </div>
+                <div>
+                    <p> <img src="/icons/email.png" alt=""> <%=InvoiceData.job.companyId.email%></p>
+                </div>
+                <div>
+                    <p> <%=InvoiceData.job.companyId.ABN%></p>
+
+                </div>
+            </div>
+        </footer>
+
     </div>
+
 </body>
 
 <script type="text/javascript">
