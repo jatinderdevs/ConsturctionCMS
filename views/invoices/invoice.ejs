@@ -136,6 +136,10 @@
             padding: 0 10px;
             background-color: #007bff51;
         }
+
+        .p-2 {
+            padding: 10px 0;
+        }
     </style>
 </head>
 
@@ -261,7 +265,7 @@
                 <table class="tblPay">
                     <tr>
                         <th colspan="2">
-                            <h4 class="color uppercase m-0">Payment:</h4>
+                            <h4 class="color uppercase m-0">bank details:</h4>
                         </th>
                     </tr>
                     <tr>
@@ -310,17 +314,11 @@
         </div>
 
         <footer>
-            <div class="flex">
-                <div>
-                    <p> <img src="/icons/phone-call.png" alt=""> <%=InvoiceData.job.companyId.contactNumber%></p>
-                </div>
-                <div>
-                    <p> <img src="/icons/email.png" alt=""> <%=InvoiceData.job.companyId.email%></p>
-                </div>
-                <div>
-                    <p> <%=InvoiceData.job.companyId.ABN%></p>
-
-                </div>
+            <div class=" p-2" style="text-align: center; ">
+                <p style="text-transform: capitalize !important;">Thanks for the buisness if any assistance please
+                    contact <strong>
+                        <%=InvoiceData.job.companyId.contactNumber%>
+                        | <%=InvoiceData.job.companyId.email%></strong></p>
             </div>
         </footer>
 
