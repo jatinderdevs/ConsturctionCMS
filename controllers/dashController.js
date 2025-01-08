@@ -16,7 +16,8 @@ module.exports.signupsubmit = async (req, res, next) => {
     req.body;
 
   let newuser = new User({
-    username: username,
+    username: username.toLowerCase(),
+
     fullname: fullname,
     image:
       "https://www.pngitem.com/pimgs/m/581-5813504_avatar-dummy-png-transparent-png.png",

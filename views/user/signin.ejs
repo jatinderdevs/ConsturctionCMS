@@ -21,8 +21,8 @@
                     <form method="post" novalidate class="needs-validation">
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="text" required class="form-control" id="username" name="username"
-                                aria-describedby="emailHelp">
+                            <input type="text" oninput="convertToLowercase(event)" required class="form-control"
+                                id="username" name="username" aria-describedby="emailHelp">
                             <div class="invalid-feedback">
                                 Username is required field
                             </div>
@@ -58,3 +58,9 @@
         </div>
     </div>
 </section>
+<script>
+    function convertToLowercase(event) {
+        // Convert the input value to lowercase
+        event.target.value = event.target.value.toLowerCase();
+    }
+</script>
