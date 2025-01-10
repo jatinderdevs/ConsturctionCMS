@@ -43,6 +43,7 @@ const jobSchema = new Schema(
         required: true,
         default: false,
       },
+      invoicePaidDate: Date,
     },
     isInvoiceGenrate: {
       type: Boolean,

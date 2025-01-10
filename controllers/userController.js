@@ -13,6 +13,7 @@ exports.signin = (req, res, next) => {
 };
 
 exports.postSignin = async (req, res, next) => {
+  console.log("login");
   let roleBaseDashboard;
   const { role } = req.user;
   if (role === "superadmin") {

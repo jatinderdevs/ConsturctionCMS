@@ -272,6 +272,7 @@ module.exports.invoicePaid = async (req, res, next) => {
 
   //toggle the invoice status fn
   job.invoice.IsPaid = job.invoice.IsPaid ? false : true;
+  job.invoice.invoicePaidDate = new Date();
 
   await job.save();
   req.flash("success", "job payment status has been updated");

@@ -25,6 +25,7 @@ const job = require("./routes/jobRoute");
 const contractor = require("./routes/contractorRoute");
 const homeRoute = require("./routes/homeRoute");
 const userManagement = require("./routes/userManagementRoute");
+const payments = require("./routes/paymentsRoute");
 
 //middleware
 const { isauth, isAdmin } = require("./utilities/middleware/isauth");
@@ -96,12 +97,12 @@ app.use("/user", userRoute);
 
 //super admin handling the users accounts
 app.use("/userManagement", isauth, isAdmin, userManagement);
-
 app.use("/dashboard", isauth, isAdmin, dashboard);
 app.use("/company", isauth, company);
 app.use("/admin", isauth, isCompany, isContractor, admin);
 app.use("/job", isauth, isCompany, isContractor, job);
 app.use("/contractor", isauth, isCompany, contractor);
+app.use("/payments", isauth, isCompany, payments);
 
 app.use((err, req, res, next) => {
   const { status = 500, message = "something Went wrong!" } = err;
